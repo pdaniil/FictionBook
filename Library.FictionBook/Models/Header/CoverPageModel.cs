@@ -19,13 +19,14 @@ namespace Library.FictionBook.Models.Header
         public bool HasImages => _images.Count > 0;
         public IEnumerable<InlineImageModel> CoverpageImages => _images;
 
-        public IEnumerable<Exception> Exceptions => null;
+        #region Implementaion of IModel
 
+        public IEnumerable<Exception> Exceptions => null;
         public XNamespace BookNamespace { get; set; }
 
         public void Load(XNode coverpage)
         {
-            _images.Clear();
+            Clear();
 
             var eCoverpage = coverpage as XElement;
 
@@ -35,7 +36,9 @@ namespace Library.FictionBook.Models.Header
             if (eCoverpage.Name.LocalName.IsNot(FictionBookConstants.CoverPage))
                 throw new ArgumentException("Element of wrong type passed", nameof(eCoverpage));
 
-            IEnumerable<XElement> images = eCoverpage.Elements(BookNamespace + FictionBookConstants.InlineImage);
+            #region Images
+
+            var images = eCoverpage.Elements(BookNamespace + FictionBookConstants.InlineImage);
 
             foreach (var image in images)
             {
@@ -51,17 +54,28 @@ namespace Library.FictionBook.Models.Header
                     //
                 }
             }
+
+            #endregion
         }
         public XNode Save(string name = "")
         {
             var coverPage = new XElement(FictionBookSchemaConstants.DefaultNamespace + FictionBookConstants.CoverPage);
 
+            #region Images
+
             foreach (var image in _images)
-            {
                 coverPage.Add(image.Save());
-            }
+
+            #endregion
 
             return coverPage;
         }
+
+        public void Clear()
+        {
+            _images.Clear();
+        }
+
+        #endregion
     }
 }

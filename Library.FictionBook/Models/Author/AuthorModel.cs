@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Xml.Linq;
 using Library.FictionBook.Models.Core;
 using Library.FictionBook.Models.Interfaces;
@@ -8,7 +7,7 @@ namespace Library.FictionBook.Models.Author
 {
     public class AuthorModel : IModel
     {
-        #region PrivateMembers
+        #region Private Members
 
         private TextFieldModel _uid = new TextFieldModel();
 
@@ -40,21 +39,15 @@ namespace Library.FictionBook.Models.Author
         public TextFieldModel HomePage { get; set; }
         public TextFieldModel Email { get; set; }
 
-        #region Exceptions
-
-        private List<Exception> _exceptions = new List<Exception>();
-
-        #endregion
-
-        public IEnumerable<Exception> Exceptions => _exceptions;
-
+        #region Implementaion of IModel
+        
         public XNamespace BookNamespace { get; set; }
 
         public virtual void Load(XNode author)
         {
-            var eAuthor = author as XElement;
+            Clear();
 
-            _exceptions.Clear();
+            var eAuthor = author as XElement;
 
             if (eAuthor == null)
                 throw new ArgumentNullException(nameof(eAuthor));
@@ -70,9 +63,9 @@ namespace Library.FictionBook.Models.Author
                 {
                     FirstName.Load(firstName);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    _exceptions.Add(e);
+                    //
                 }
             }
 
@@ -89,9 +82,9 @@ namespace Library.FictionBook.Models.Author
                 {
                     MiddleName.Load(middleName);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    _exceptions.Add(e);
+                    //
                 }
             }
 
@@ -107,9 +100,9 @@ namespace Library.FictionBook.Models.Author
                     LastName = new TextFieldModel();
                     LastName.Load(lastName);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    _exceptions.Add(e);
+                    //
                 }
             }
 
@@ -125,9 +118,9 @@ namespace Library.FictionBook.Models.Author
                     NickName = new TextFieldModel();
                     NickName.Load(nickName);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    _exceptions.Add(e);
+                    //
                 }
             }
 
@@ -143,9 +136,9 @@ namespace Library.FictionBook.Models.Author
                     HomePage = new TextFieldModel();
                     HomePage.Load(homePage);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    _exceptions.Add(e);
+                    //
                 }
             }
 
@@ -161,9 +154,9 @@ namespace Library.FictionBook.Models.Author
                     Email = new TextFieldModel();
                     Email.Load(email);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    _exceptions.Add(e);
+                    //
                 }
             }
 
@@ -180,42 +173,83 @@ namespace Library.FictionBook.Models.Author
                     Uid.Load(uid);
                     Uid.Text = _uid.Text.ToLower();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    _exceptions.Add(e);
+                    //
                 }
             }
 
             #endregion
 
         }
-        public virtual XNode Save(string name)
+        public virtual XNode Save(string name = FictionBookConstants.Author)
         {
             var eAuthor = new XElement(FictionBookSchemaConstants.DefaultNamespace + name);
+
+            #region FirstName
 
             if (FirstName != null)
                 eAuthor.Add(FirstName.Save(FictionBookConstants.FirstName));
 
+            #endregion
+
+            #region MiddleName
+
             if (MiddleName != null)
                 eAuthor.Add(MiddleName.Save(FictionBookConstants.MiddleName));
+
+            #endregion
+
+            #region LastName
 
             if (LastName != null)
                 eAuthor.Add(LastName.Save(FictionBookConstants.LastName));
 
+            #endregion
+
+            #region NickName
+
             if (NickName != null)
                 eAuthor.Add(NickName.Save(FictionBookConstants.NickName));
+
+            #endregion
+
+            #region HomePage
 
             if (HomePage != null)
                 eAuthor.Add(HomePage.Save(FictionBookConstants.HomePage));
 
+            #endregion
+
+            #region Email
+
             if (Email != null)
                 eAuthor.Add(Email.Save(FictionBookConstants.Email));
+
+            #endregion
+
+            #region Uid
 
             if (Uid != null)
                 eAuthor.Add(Uid.Save(FictionBookConstants.Id));
 
+            #endregion
+
             return eAuthor;
         }
+
+        public void Clear()
+        {
+            FirstName = null;
+            MiddleName = null;
+            LastName = null;
+            NickName = null;
+            HomePage = null;
+            Email = null;
+            Uid = null;
+        } 
+
+        #endregion
 
         #region Overrides
 
