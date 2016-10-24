@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Xml.Linq;
-using Library.FictionBook.Core.Extensions;
+using Library.FictionBook.Core;
 using Library.FictionBook.Models.Author;
 using Library.FictionBook.Models.Core;
 using Library.FictionBook.Models.Interfaces;

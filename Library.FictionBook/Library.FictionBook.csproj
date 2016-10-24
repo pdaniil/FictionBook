@@ -39,8 +39,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Extensions\StringExtensions.cs" />
-    <Compile Include="Core\Extensions\XElementExtensions.cs" />
+    <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\ModelFactory.cs" />
     <Compile Include="FictionBook.cs" />
     <Compile Include="Models\Author\PublisherModel.cs" />

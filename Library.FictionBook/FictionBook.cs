@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Library.FictionBook.Core;
-using Library.FictionBook.Core.Extensions;
 using Library.FictionBook.Models;
 using Library.FictionBook.Models.Core;
 using Library.FictionBook.Models.Header;
-using Library.FictionBook.Models.Interfaces;
 
 namespace Library.FictionBook
 {
@@ -182,8 +180,6 @@ namespace Library.FictionBook
 
                 #endregion
 
-
-                var a = 1;
 
                 //IEnumerable<XElement> xInstructions = description.Elements(description.Name.Namespace + "output");
                 //int outputCount = 0;

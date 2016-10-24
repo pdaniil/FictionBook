@@ -1,5 +1,5 @@
 ﻿using System.Xml.Linq;
-using Library.FictionBook.Core.Extensions;
+using Library.FictionBook.Core;
 using Library.FictionBook.Models.Core;
 
 namespace Library.FictionBook.Models

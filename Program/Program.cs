@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Xml;
-using System.Xml.Linq;
 using Library.FictionBook;
-using Library.FictionBook.Models.Core;
 
 namespace Program
 {

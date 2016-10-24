@@ -3,10 +3,47 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using Library.FictionBook.Models.Interfaces;
 
-namespace Library.FictionBook.Core.Extensions
+namespace Library.FictionBook.Core
 {
-    public static class XElementExtensions
+    public static class Extensions
     {
+        #region String
+
+        public static bool Is(this string value, string forCompare)
+        {
+            if (value == forCompare)
+                return true;
+            return false;
+        }
+
+        public static bool IsNot(this string value, string forCompare)
+        {
+            if (value != forCompare)
+                return true;
+            return false;
+        }
+
+        public static XAttribute ToFictionAttribute(this string value, XName name)
+        {
+            return new XAttribute(name, value);
+        }
+
+        public static XElement ToFictionElement(this string value, XName name, params XAttribute[] attributes)
+        {
+            var element = new XElement(name, value);
+
+            foreach (var attribute in attributes)
+            {
+                element.Add(attribute);
+            }
+
+            return element;
+        }
+
+        #endregion
+
+        #region Xml
+        
         public static string FictionAttribute(this XElement element, XName correctName, XName wrongName = null)
         {
             var value = string.Empty;
@@ -54,7 +91,7 @@ namespace Library.FictionBook.Core.Extensions
 
             return list;
         }
-        
+
         public static T To<T>(this XElement element)
             where T : IModel, new()
         {
@@ -76,5 +113,7 @@ namespace Library.FictionBook.Core.Extensions
 
             return model;
         }
+
+        #endregion
     }
 }
