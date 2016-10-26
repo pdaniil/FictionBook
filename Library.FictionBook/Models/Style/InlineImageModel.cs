@@ -13,8 +13,6 @@ namespace Library.FictionBook.Models.Style
         public string Href { get; set; }
         public string Alt { get; set; }
 
-        public IEnumerable<Exception> Exceptions => null;
-
         public XNamespace BookNamespace { get; set; }
 
         public void Load(XNode image)
@@ -57,6 +55,11 @@ namespace Library.FictionBook.Models.Style
                 image.Add(Alt.ToFictionAttribute(FictionBookSchemaConstants.LinkNamespace + FictionBookConstants.Alt));
             
             return image;
+        }
+
+        public void Clear()
+        {
+            
         }
     }
 }

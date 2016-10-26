@@ -23,32 +23,26 @@ namespace Library.FictionBook.Models.Header
         #endregion
         
         public IEnumerable<TitleGenreModel> Genres => _genres;
-
         public IEnumerable<AuthorModel> BookAuthors => _bookAuthors;
         public IEnumerable<TranslatorModel> Translators => _translators;
-
         public IEnumerable<SequenceModel> Sequences => _sequences;
 
         public TextFieldModel BookTitle { set; get; }
         public DateModel BookDate { get; set; }
-
         public CoverPageModel CoverPage { get; set; }
-
         public AnnotationModel Annotation { set; get; }
         public TextFieldModel Keywords { get; set; }
 
         public string Language { set; get; }
-        public string SrcLanguage { get; set; }
+        public string SourceLanguage { get; set; }
 
-        public IEnumerable<Exception> Exceptions => null;
+        #region Implementation of IModel
+
         public XNamespace BookNamespace { get; set; }
 
         public void Load(XNode titleInfo)
         {
-            _genres.Clear();
-            _bookAuthors.Clear();
-            _translators.Clear();
-            _sequences.Clear();
+            Clear();
 
             var eTitleInfo = titleInfo as XElement;
 
@@ -58,7 +52,7 @@ namespace Library.FictionBook.Models.Header
             #region Genres
 
             _genres.AddRange(eTitleInfo.Elements(BookNamespace + FictionBookConstants.Genre).To<TitleGenreModel>(BookNamespace));
-            
+
             #endregion
 
             #region Authors
@@ -113,7 +107,7 @@ namespace Library.FictionBook.Models.Header
             var sourceLanguage = eTitleInfo.Element(BookNamespace + FictionBookConstants.SourceLanguage);
 
             if (sourceLanguage != null)
-                SrcLanguage = sourceLanguage.Value;
+                SourceLanguage = sourceLanguage.Value;
             else
                 Debug.WriteLine("SourceLanguage not specified in title section");
 
@@ -136,6 +130,8 @@ namespace Library.FictionBook.Models.Header
         {
             var titleInfo = new XElement(FictionBookSchemaConstants.DefaultNamespace + FictionBookConstants.TitleInfo);
 
+            #region Genres
+
             foreach (var genre in _genres)
             {
                 try
@@ -147,6 +143,10 @@ namespace Library.FictionBook.Models.Header
                     Debug.WriteLine(string.Format("Error converting genre data to XML: {0}", ex.Message));
                 }
             }
+
+            #endregion
+
+            #region BookAuthors
 
             foreach (var author in _bookAuthors)
             {
@@ -160,34 +160,91 @@ namespace Library.FictionBook.Models.Header
                 }
             }
 
+            #endregion
+
+            #region BookTitle
+
             if (BookTitle != null)
                 titleInfo.Add(BookTitle.Save(FictionBookConstants.BookTitle));
+
+            #endregion
+
+            #region Annotation
 
             if (Annotation != null)
                 titleInfo.Add(Annotation.Save());
 
+            #endregion
+
+            #region Keywords
+
             if (Keywords != null)
                 titleInfo.Add(Keywords.Save(FictionBookConstants.Keywords));
+
+            #endregion
+
+            #region BookDate
 
             if (BookDate != null)
                 titleInfo.Add(BookDate.Save());
 
+            #endregion
+
+            #region CoverPage
+
             if (CoverPage != null)
                 titleInfo.Add(CoverPage.Save());
+
+            #endregion
+
+            #region Language
 
             if (!string.IsNullOrEmpty(Language))
                 titleInfo.Add(Language.ToFictionElement(FictionBookSchemaConstants.DefaultNamespace + FictionBookConstants.Language));
 
-            if (!string.IsNullOrEmpty(SrcLanguage))
-                titleInfo.Add(SrcLanguage.ToFictionElement(FictionBookSchemaConstants.DefaultNamespace + FictionBookConstants.SourceLanguage));
+            #endregion
+
+            #region SourceLanguage
+
+            if (!string.IsNullOrEmpty(SourceLanguage))
+                titleInfo.Add(SourceLanguage.ToFictionElement(FictionBookSchemaConstants.DefaultNamespace + FictionBookConstants.SourceLanguage));
+
+            #endregion
+
+            #region Translators
 
             foreach (var translator in _translators)
                 titleInfo.Add(translator.Save());
 
+            #endregion
+
+            #region Sequences
+
             foreach (var sequence in _sequences)
                 titleInfo.Add(sequence.Save());
 
+            #endregion
+
             return titleInfo;
         }
+
+        public void Clear()
+        {
+            _genres.Clear();
+            _bookAuthors.Clear();
+            _translators.Clear();
+            _sequences.Clear();
+
+            BookTitle = null;
+            BookDate = null;
+            CoverPage = null;
+            Annotation = null;
+            Keywords = null;
+            Language = null;
+            SourceLanguage = null;
+        }
+
+        #endregion
+
     }
 }

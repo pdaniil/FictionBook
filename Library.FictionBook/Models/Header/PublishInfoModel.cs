@@ -25,11 +25,13 @@ namespace Library.FictionBook.Models.Header
 
         #region IModel implementation
 
-        public IEnumerable<Exception> Exceptions { get; }
+
         public XNamespace BookNamespace { get; set; }
 
         public void Load(XNode publishInfo)
         {
+            Clear();
+
             var ePublishInfo = publishInfo as XElement;
 
             if (ePublishInfo == null)
@@ -124,6 +126,16 @@ namespace Library.FictionBook.Models.Header
             #endregion
 
             return publishInfo;
+        }
+
+        public void Clear()
+        {
+            BookTitle = null;
+            Isbn = null;
+            Year = null;
+            City = null;
+            Publisher = null;
+            _sequences.Clear();
         }
 
         #endregion
