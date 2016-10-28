@@ -21,14 +21,15 @@ namespace Library.FictionBook.Models
         public string Style { get; set; }
         public string Lang { get; set; }
 
-        public List<IStyle> ParagraphData => _content;
+        public List<IStyle> Content => _content;
+
+        #region Implementation of IModel
 
         public XNamespace BookNamespace { get; set; }
-        public IEnumerable<Exception> Exceptions { get; }
 
         public void Load(XNode paragraph)
         {
-            _content.Clear();
+            Clear();
 
             var eParagraph = paragraph as XElement;
 
@@ -37,6 +38,8 @@ namespace Library.FictionBook.Models
 
             if (eParagraph.Name.LocalName.Is(FictionBookConstants.Paragraph))
                 throw new ArgumentException("Element of wrong type passed", nameof(eParagraph));
+
+            #region Content
 
             if (eParagraph.HasElements)
             {
@@ -79,30 +82,85 @@ namespace Library.FictionBook.Models
                 _content.Add(text);
             }
 
+            #endregion
+
+            #region Id
+
             Id = eParagraph.FictionAttribute(FictionBookConstants.Id);
+
+            #endregion
+
+            #region Style
+
             Style = eParagraph.FictionAttribute(FictionBookConstants.Style);
+
+            #endregion
+
+            #region Lang
+
             Lang = eParagraph.FictionAttribute(XNamespace.Xml + FictionBookConstants.Language);
-        } 
+
+            #endregion
+        }
         public XNode Save(string name)
         {
             XElement paragraph = new XElement(FictionBookSchemaConstants.DefaultNamespace + FictionBookConstants.Paragraph);
 
-            if (!string.IsNullOrEmpty(Id))
-                paragraph.Add(Id.ToFictionAttribute(FictionBookConstants.Id));
-
-            if (!string.IsNullOrEmpty(Style))
-                paragraph.Add(Style.ToFictionAttribute(FictionBookConstants.Style));
-
-            if (!string.IsNullOrEmpty(Lang))
-            {
-                paragraph.Add(Lang.ToFictionAttribute(XNamespace.Xml + FictionBookConstants.Language));
-            }
+            #region Content
 
             foreach (IStyle node in _content)
                 paragraph.Add(node.Save());
 
+            #endregion
+
+            #region Id
+
+            if (!string.IsNullOrEmpty(Id))
+                paragraph.Add(Id.ToFictionAttribute(FictionBookConstants.Id));
+
+            #endregion
+
+            #region Style
+
+            if (!string.IsNullOrEmpty(Style))
+                paragraph.Add(Style.ToFictionAttribute(FictionBookConstants.Style));
+
+            #endregion
+
+            #region Lang
+
+            if (!string.IsNullOrEmpty(Lang))
+                paragraph.Add(Lang.ToFictionAttribute(XNamespace.Xml + FictionBookConstants.Language));
+
+            #endregion
+
             return paragraph;
         }
+
+        public void Clear()
+        {
+            _content.Clear();
+            Id = null;
+            Style = null;
+            Lang = null;
+        }
+
+        #endregion
+
+        #region Overrides
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            foreach (var textItem in _content)
+            {
+                builder.Append(textItem.ToString());
+                builder.Append(" ");
+            }
+            return builder.ToString();
+        }
+
+        #endregion
 
         private bool IsSimpleText(XNode node)
         {
@@ -116,17 +174,6 @@ namespace Library.FictionBook.Models
                 return false;
 
             return true;
-        }
-
-        public override string ToString()
-        {
-            StringBuilder builder = new StringBuilder();
-            foreach (var textItem in _content)
-            {
-                builder.Append(textItem.ToString());
-                builder.Append(" ");
-            }
-            return builder.ToString();
         }
     }
 }

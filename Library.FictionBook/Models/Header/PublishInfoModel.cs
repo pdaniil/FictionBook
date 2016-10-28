@@ -25,7 +25,6 @@ namespace Library.FictionBook.Models.Header
 
         #region IModel implementation
 
-
         public XNamespace BookNamespace { get; set; }
 
         public void Load(XNode publishInfo)

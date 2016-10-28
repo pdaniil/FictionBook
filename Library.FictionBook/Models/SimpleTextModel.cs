@@ -19,7 +19,7 @@ namespace Library.FictionBook.Models
         #endregion
 
         public string Text { get; set; }
-        public List<IStyle> Children => _content;
+        public IEnumerable<IStyle> Children => _content;
         public TextStyle Style
         {
             get { return _style; }
@@ -34,7 +34,7 @@ namespace Library.FictionBook.Models
 
         public void Load(XNode text)
         {
-            _content.Clear();
+            Clear();
 
             if (text == null)
                 throw new ArgumentNullException(nameof(text));
@@ -112,6 +112,12 @@ namespace Library.FictionBook.Models
                 return Text.ToFictionElement(FictionBookSchemaConstants.DefaultNamespace + _style.GetTextStyle());
 
             return new XText(Text);
+        }
+
+        public void Clear()
+        {
+            _content.Clear();
+            Text = null;
         }
 
         public override string ToString()

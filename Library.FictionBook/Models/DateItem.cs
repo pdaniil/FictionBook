@@ -19,12 +19,14 @@ namespace Library.FictionBook.Models
         public DateTime Date { get;set; }
         public string Language { get; set; }
 
-        public IEnumerable<Exception> Exceptions => _exceptions;
+        #region Implementation of IModel
 
         public XNamespace BookNamespace { get; set; }
 
         public void Load(XNode date)
         {
+            Clear();
+
             var eDate = date as XElement;
 
             if (eDate == null)
@@ -33,8 +35,14 @@ namespace Library.FictionBook.Models
             if (eDate.Name.LocalName != FictionBookConstants.Date)
                 throw new ArgumentException("Element of wrong type passed", nameof(eDate));
 
+            #region Text
+
             if (eDate.Value != null)
                 Text = eDate.Value;
+
+            #endregion
+
+            #region Date
 
             var dateValue = eDate.FictionAttribute("value");
             try
@@ -43,25 +51,52 @@ namespace Library.FictionBook.Models
             }
             catch (Exception e)
             {
-                _exceptions.Add(e);     
+                _exceptions.Add(e);
             }
 
+            #endregion
+
+            #region Language
+
             Language = eDate.FictionAttribute(XNamespace.Xml + FictionBookConstants.Language);
+
+            #endregion
         }
         public XNode Save(string name = "")
         {
             var date = new XElement(FictionBookSchemaConstants.DefaultNamespace + FictionBookConstants.Date);
 
+            #region Text
+
             if (!string.IsNullOrEmpty(Text))
                 date.Value = Text;
 
-            if (!string.IsNullOrEmpty(Language))
-                date.Add(Language.ToFictionAttribute(XNamespace.Xml + FictionBookConstants.Language));
+            #endregion
+
+            #region Date
 
             if (!Date.Equals(DateTime.MinValue))
                 date.Add(Date.ToString("d").ToFictionAttribute("value"));
 
+            #endregion
+
+            #region Language
+
+            if (!string.IsNullOrEmpty(Language))
+                date.Add(Language.ToFictionAttribute(XNamespace.Xml + FictionBookConstants.Language));
+
+            #endregion
+
             return date;
         }
+
+        public void Clear()
+        {
+            Text = null;
+            Date = DateTime.MinValue;
+            Language = null;
+        }
+
+        #endregion
     }
 }

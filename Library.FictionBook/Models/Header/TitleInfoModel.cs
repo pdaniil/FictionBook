@@ -245,6 +245,5 @@ namespace Library.FictionBook.Models.Header
         }
 
         #endregion
-
     }
 }
