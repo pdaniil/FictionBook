@@ -68,10 +68,7 @@
 
             Parallel.ForEach(
                 files,
-                (file) =>
-                {
-                    ProcessFile(file);
-                });
+                ProcessFile);
 
             counter.Stop();
 
@@ -121,7 +118,7 @@
                 //    }
                 //}
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("Error during reading: " + file);
             }
