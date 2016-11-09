@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{54D5EFCA-8A2B-4744-A478-83D7531B4D46}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FictionBook</RootNamespace>
+    <AssemblyName>FictionBook</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\BaseTextData.cs" />
+    <Compile Include="Base\BaseFormatingStyle.cs" />
+    <Compile Include="Enum\AlignType.cs" />
+    <Compile Include="Formating\AnnotationType.cs" />
+    <Compile Include="Formating\AuthorType.cs" />
+    <Compile Include="Formating\CiteType.cs" />
+    <Compile Include="Data\DateType.cs" />
+    <Compile Include="Formating\EpigraphType.cs" />
+    <Compile Include="Data\FictionBookBinary.cs" />
+    <Compile Include="FictionBookBody.cs" />
+    <Compile Include="FictionBookDescription.cs" />
+    <Compile Include="Description\FictionBookDescriptionCustominfo.cs" />
+    <Compile Include="Description\FictionBookDescriptionDocumentinfo.cs" />
+    <Compile Include="Description\FictionBookDescriptionPublishinfo.cs" />
+    <Compile Include="Description\FictionBookDescriptionTitleinfo.cs" />
+    <Compile Include="Data\FictionBookDescriptionTitleinfoGenre.cs" />
+    <Compile Include="FictionBookStylesheet.cs" />
+    <Compile Include="Enum\GenreType.cs" />
+    <Compile Include="Data\ImageType.cs" />
+    <Compile Include="Enum\AuthorSupportedEnum.cs" />
+    <Compile Include="Enum\StyleLinkSupportedEnum.cs" />
+    <Compile Include="Enum\StyleSupportedEnum.cs" />
+    <Compile Include="Enum\SectionSupportedEnum.cs" />
+    <Compile Include="Formating\LinkType.cs" />
+    <Compile Include="Formating\NamedStyleType.cs" />
+    <Compile Include="FictionBook.cs" />
+    <Compile Include="Formating\PoemType.cs" />
+    <Compile Include="Formating\PoemTypeStanza.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Formating\PType.cs" />
+    <Compile Include="Formating\SectionType.cs" />
+    <Compile Include="Data\SequenceType.cs" />
+    <Compile Include="Formating\StyleLinkType.cs" />
+    <Compile Include="Formating\StyleType.cs" />
+    <Compile Include="Formating\TableType.cs" />
+    <Compile Include="Formating\TableTypeTR.cs" />
+    <Compile Include="Data\TextFieldType.cs" />
+    <Compile Include="Formating\TitleType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Xml.XmlSerializer">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETPortable\v4.6\Profile\Profile151\System.Xml.XmlSerializer.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

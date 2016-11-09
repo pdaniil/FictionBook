@@ -1,0 +1,19 @@
+namespace FictionBook.Description
+{
+    using System.Xml.Serialization;
+
+    using Data;
+
+    /// <summary>
+    /// The fiction book description custominfo.
+    /// </summary>
+    [XmlType(AnonymousType = true, Namespace = "http://www.gribuser.ru/xml/fictionbook/2.0")]
+    public class FictionBookDescriptionCustominfo : TextFieldType
+    {
+        /// <summary>
+        /// The infotype.
+        /// </summary>
+        [XmlAttribute("info-type")]
+        public string InfoType { get; set; }
+    }
+}
