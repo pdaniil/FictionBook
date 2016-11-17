@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "Program\Program.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FictionBook", "FictionBook\FictionBook.csproj", "{54D5EFCA-8A2B-4744-A478-83D7531B4D46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FictionBook.App", "FictionBook.App\FictionBook.App.csproj", "{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,26 @@ Global
 		{54D5EFCA-8A2B-4744-A478-83D7531B4D46}.Release|x64.Build.0 = Release|Any CPU
 		{54D5EFCA-8A2B-4744-A478-83D7531B4D46}.Release|x86.ActiveCfg = Release|Any CPU
 		{54D5EFCA-8A2B-4744-A478-83D7531B4D46}.Release|x86.Build.0 = Release|Any CPU
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Debug|ARM.ActiveCfg = Debug|ARM
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Debug|ARM.Build.0 = Debug|ARM
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Debug|ARM.Deploy.0 = Debug|ARM
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Debug|x64.ActiveCfg = Debug|x64
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Debug|x64.Build.0 = Debug|x64
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Debug|x64.Deploy.0 = Debug|x64
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Debug|x86.ActiveCfg = Debug|x86
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Debug|x86.Build.0 = Debug|x86
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Debug|x86.Deploy.0 = Debug|x86
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Release|Any CPU.ActiveCfg = Release|x86
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Release|ARM.ActiveCfg = Release|ARM
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Release|ARM.Build.0 = Release|ARM
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Release|ARM.Deploy.0 = Release|ARM
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Release|x64.ActiveCfg = Release|x64
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Release|x64.Build.0 = Release|x64
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Release|x64.Deploy.0 = Release|x64
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Release|x86.ActiveCfg = Release|x86
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Release|x86.Build.0 = Release|x86
+		{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
