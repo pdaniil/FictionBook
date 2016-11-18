@@ -7,7 +7,7 @@ using FictionBook.App.Providers.Contracts;
 
 namespace FictionBook.App.ViewModels
 {
-    public class ShellPageViewModel :
+    public sealed class ShellPageViewModel :
         Screen
     {
 

@@ -103,7 +103,11 @@
     <Compile Include="Providers\MarketInAppPurchase.cs" />
     <Compile Include="Providers\ShellMenuProvider.cs" />
     <Compile Include="Providers\SimulatorInAppPurchase.cs" />
+    <Compile Include="ViewModels\LibraryPageViewModel.cs" />
     <Compile Include="ViewModels\ShellPageViewModel.cs" />
+    <Compile Include="Views\LibraryPageView.xaml.cs">
+      <DependentUpon>LibraryPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ShellPageView.xaml.cs">
       <DependentUpon>ShellPageView.xaml</DependentUpon>
     </Compile>
@@ -134,6 +138,10 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\LibraryPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ShellPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

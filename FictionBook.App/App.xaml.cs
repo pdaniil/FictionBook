@@ -51,7 +51,7 @@ namespace FictionBook.App
 
             #region PerRequest
                 .PerRequest<ShellPageViewModel>()
-                //.PerRequest<HomePageViewModel>()
+                .PerRequest<LibraryPageViewModel>()
             #endregion
 
             #region Singleton
