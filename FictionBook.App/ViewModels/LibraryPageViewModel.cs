@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 
-namespace FictionBook.App.ViewModels
+namespace Books.App.ViewModels
 {
     public sealed class LibraryPageViewModel 
         : Screen

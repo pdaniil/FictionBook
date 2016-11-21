@@ -1,4 +1,4 @@
-﻿namespace FictionBook.App.Providers.Contracts
+﻿namespace Books.App.Providers.Contracts
 {
     public interface IInAppPurchase
     {

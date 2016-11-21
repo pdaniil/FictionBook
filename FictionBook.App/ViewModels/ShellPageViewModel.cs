@@ -1,11 +1,11 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Books.App.Core;
+using Books.App.Core.UI;
+using Books.App.Providers.Contracts;
 using Caliburn.Micro;
-using FictionBook.App.Core;
-using FictionBook.App.Core.UI;
-using FictionBook.App.Providers.Contracts;
 
-namespace FictionBook.App.ViewModels
+namespace Books.App.ViewModels
 {
     public sealed class ShellPageViewModel :
         Screen

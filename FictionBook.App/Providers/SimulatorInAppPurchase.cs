@@ -1,8 +1,8 @@
 ﻿using System;
 using Windows.ApplicationModel.Store;
-using FictionBook.App.Providers.Contracts;
+using Books.App.Providers.Contracts;
 
-namespace FictionBook.App.Providers
+namespace Books.App.Providers
 {
     public class SimulatorInAppPurchase
         : IInAppPurchase

@@ -1,6 +1,5 @@
-﻿<micro:CaliburnApplication x:Class="FictionBook.App.App"
+﻿<micro:CaliburnApplication x:Class="Books.App.App"
                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                           xmlns:local="using:FictionBook.App"
                            xmlns:micro="using:Caliburn.Micro"
                            RequestedTheme="Light" />

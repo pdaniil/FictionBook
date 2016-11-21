@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "Program\Program.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FictionBook", "FictionBook\FictionBook.csproj", "{54D5EFCA-8A2B-4744-A478-83D7531B4D46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FictionBook.App", "FictionBook.App\FictionBook.App.csproj", "{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.App", "FictionBook.App\Books.App.csproj", "{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Books.Libraries", "Books.Libraries", "{A0E3F662-E2B9-43A3-B5BC-F161A5D10970}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,5 +78,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{54D5EFCA-8A2B-4744-A478-83D7531B4D46} = {A0E3F662-E2B9-43A3-B5BC-F161A5D10970}
 	EndGlobalSection
 EndGlobal

@@ -7,8 +7,8 @@
     <ProjectGuid>{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FictionBook.App</RootNamespace>
-    <AssemblyName>FictionBook.App</AssemblyName>
+    <RootNamespace>Books.App</RootNamespace>
+    <AssemblyName>Books.App</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>

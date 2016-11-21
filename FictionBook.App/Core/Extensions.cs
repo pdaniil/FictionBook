@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Caliburn.Micro;
 
-namespace FictionBook.App.Core
+namespace Books.App.Core
 {
     public static class Extensions
     {

@@ -5,12 +5,12 @@ using Windows.ApplicationModel.Activation;
 using Windows.Globalization;
 using Windows.System.UserProfile;
 using Windows.UI.Core;
+using Books.App.Providers;
+using Books.App.Providers.Contracts;
+using Books.App.ViewModels;
 using Caliburn.Micro;
-using FictionBook.App.Providers;
-using FictionBook.App.Providers.Contracts;
-using FictionBook.App.ViewModels;
 
-namespace FictionBook.App
+namespace Books.App
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

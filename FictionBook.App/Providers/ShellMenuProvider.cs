@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
-using FictionBook.App.Core.UI;
-using FictionBook.App.Providers.Contracts;
-using FictionBook.App.ViewModels;
+using Books.App.Core.UI;
+using Books.App.Providers.Contracts;
+using Books.App.ViewModels;
 
-namespace FictionBook.App.Providers
+namespace Books.App.Providers
 {
     public class ShellMenuProvider : IMenuProvider
     {

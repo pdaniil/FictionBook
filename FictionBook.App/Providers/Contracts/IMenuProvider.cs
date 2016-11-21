@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using FictionBook.App.Core.UI;
+using Books.App.Core.UI;
 
-namespace FictionBook.App.Providers.Contracts
+namespace Books.App.Providers.Contracts
 {
     public interface IMenuProvider
     {
