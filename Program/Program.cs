@@ -20,7 +20,7 @@
         {
             Console.OutputEncoding = Encoding.Unicode; ;
 
-            var path = @"I:\";
+            var path = @"I:\Books";
             var files = Directory.GetFiles(path, "*.fb2");
 
             Console.WriteLine("Total files found: " + files.Length);
@@ -118,7 +118,7 @@
                 //    }
                 //}
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Console.WriteLine("Error during reading: " + file);
             }

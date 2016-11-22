@@ -63,8 +63,7 @@ namespace Books.App.ViewModels
             if (menuItem.Page == typeof(LibraryPageViewModel))
             {
                 _navigation.For<LibraryPageViewModel>()
-                        //.WithParam(x => x.Home, "Passed")
-                        .Navigate();
+                    .Navigate();
 
                 BookCommandBarVisibility = Visibility.Visible;
             }

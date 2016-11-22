@@ -5,29 +5,88 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
-
     <Page.Resources>
         <Style TargetType="PivotHeaderItem">
             <Style.Setters>
-                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontSize" Value="15" />
             </Style.Setters>
         </Style>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot x:Name="rootPivot"
-               Title="LIBRARY"
-               Foreground="Black">
+        <Pivot Title="LIBRARY" Foreground="Black">
             <PivotItem Header="RECENT">
-                <controls:AdaptiveGridView DesiredWidth="150" ItemHeight="200" HorizontalContentAlignment="Left">
+                <controls:AdaptiveGridView x:Name="adv"
+                                           HorizontalContentAlignment="Left"
+                                           ItemsSource="{Binding Path=Source}"
+                                           StretchContentForSingleRow="False">
+                    <controls:AdaptiveGridView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="65*" />
+                                    <RowDefinition Height="35*" />
+                                </Grid.RowDefinitions>
+
+                                <Image Grid.Row="0"
+                                       Grid.RowSpan="2"
+                                       Source="{Binding Path=Cover}"
+                                       Stretch="UniformToFill" />
+
+                                <Grid Grid.Row="1" Padding="2">
+                                    <Grid.Background>
+                                        <SolidColorBrush Opacity="0.6" Color="Black" />
+                                    </Grid.Background>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="80*" />
+                                        <RowDefinition Height="20*" />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock FontSize="13"
+                                               FontWeight="SemiLight"
+                                               Foreground="White"
+                                               Opacity="1"
+                                               Text="{Binding Path=Name}"
+                                               TextWrapping="Wrap" />
+                                    <TextBlock Grid.Row="1"
+                                               Opacity="1"
+                                               Text="{Binding Path=Author}" />
+                                </Grid>
+                            </Grid>
+
+                        </DataTemplate>
+                    </controls:AdaptiveGridView.ItemTemplate>
                 </controls:AdaptiveGridView>
+
             </PivotItem>
-            <!--<PivotItem Header="ALL">
-            -->
-            <!--  Pivot content goes here  -->
-            <!--
-                <TextBlock Text="Content of pivot item 2." />
-            </PivotItem>-->
         </Pivot>
+
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="adv.DesiredWidth" Value="220" />
+                        <Setter Target="adv.ItemHeight" Value="330" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="adv.DesiredWidth" Value="150" />
+                        <Setter Target="adv.ItemHeight" Value="200" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
+
+
 </Page>

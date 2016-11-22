@@ -50,6 +50,7 @@ namespace FictionBook.Description
         /// <summary>
         /// The coverpage.
         /// </summary>
+        [XmlArray("coverpage")]
         [XmlArrayItem("image", IsNullable = false)]
         public ImageType[] Coverpage { get; set; }
 
