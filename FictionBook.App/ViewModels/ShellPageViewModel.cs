@@ -1,7 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Books.App.Controls;
 using Books.App.Core;
-using Books.App.Core.UI;
 using Books.App.Providers.Contracts;
 using Caliburn.Micro;
 
@@ -60,14 +60,14 @@ namespace Books.App.ViewModels
 
             var menuItem = eventArgs.ClickedItem as MenuItem;
 
-            //if (menuItem.Page == typeof(HomePageViewModel))
-            //{
-            //    _navigation.For<HomePageViewModel>()
-            //            .WithParam(x => x.Home, "Passed")
-            //            .Navigate();
+            if (menuItem.Page == typeof(LibraryPageViewModel))
+            {
+                _navigation.For<LibraryPageViewModel>()
+                        //.WithParam(x => x.Home, "Passed")
+                        .Navigate();
 
-            //    BookCommandBarVisibility = Visibility.Visible;
-            //}
+                BookCommandBarVisibility = Visibility.Visible;
+            }
 
             PaneBehavior();
         }

@@ -1,9 +1,33 @@
 ﻿<Page x:Class="Books.App.Views.LibraryPageView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+    <Page.Resources>
+        <Style TargetType="PivotHeaderItem">
+            <Style.Setters>
+                <Setter Property="FontSize" Value="14" />
+            </Style.Setters>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Pivot x:Name="rootPivot"
+               Title="LIBRARY"
+               Foreground="Black">
+            <PivotItem Header="RECENT">
+                <controls:AdaptiveGridView DesiredWidth="150" ItemHeight="200" HorizontalContentAlignment="Left">
+                </controls:AdaptiveGridView>
+            </PivotItem>
+            <!--<PivotItem Header="ALL">
+            -->
+            <!--  Pivot content goes here  -->
+            <!--
+                <TextBlock Text="Content of pivot item 2." />
+            </PivotItem>-->
+        </Pivot>
+    </Grid>
 </Page>

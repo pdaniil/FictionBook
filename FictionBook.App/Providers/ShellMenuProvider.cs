@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
-using Books.App.Core.UI;
+using Books.App.Controls;
 using Books.App.Providers.Contracts;
 using Books.App.ViewModels;
 
@@ -20,7 +20,7 @@ namespace Books.App.Providers
         {
             yield return new MenuItem() { Icon = Symbol.Setting, Name = "Settings", Page = typeof(ShellPageViewModel) };
 
-            var symbol = Symbol.Library;
+            //var symbol = Symbol.Library;
         }
 
         #endregion

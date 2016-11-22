@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Controls;
 
-namespace Books.App.Core.UI
+namespace Books.App.Controls
 {
     public class MenuItem
     {

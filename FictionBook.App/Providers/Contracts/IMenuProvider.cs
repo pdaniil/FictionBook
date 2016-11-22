@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Books.App.Core.UI;
+using Books.App.Controls;
 
 namespace Books.App.Providers.Contracts
 {
