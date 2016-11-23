@@ -1,10 +1,9 @@
-namespace FictionBook.Formating
+using System.Xml.Schema;
+using System.Xml.Serialization;
+using FictionBook.Library.Base;
+
+namespace FictionBook.Library.Formating
 {
-    using System.Xml.Schema;
-    using System.Xml.Serialization;
-
-    using Base;
-
     /// <summary>
     /// The title type.
     /// </summary>

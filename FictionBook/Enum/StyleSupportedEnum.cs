@@ -1,7 +1,7 @@
-namespace FictionBook.Enum
-{
-    using System.Xml.Serialization;
+using System.Xml.Serialization;
 
+namespace FictionBook.Library.Enum
+{
     /// <summary>
     /// The items choice type 3.
     /// </summary>

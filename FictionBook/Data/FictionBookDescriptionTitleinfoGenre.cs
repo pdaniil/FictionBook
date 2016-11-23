@@ -1,10 +1,9 @@
-namespace FictionBook.Data
+using System.ComponentModel;
+using System.Xml.Serialization;
+using FictionBook.Library.Base;
+
+namespace FictionBook.Library.Data
 {
-    using System.ComponentModel;
-    using System.Xml.Serialization;
-
-    using Base;
-
     /// <summary>
     /// The fiction book description titleinfo genre.
     /// </summary>

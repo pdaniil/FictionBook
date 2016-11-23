@@ -1,9 +1,8 @@
-namespace FictionBook.Description
+using System.Xml.Serialization;
+using FictionBook.Library.Data;
+
+namespace FictionBook.Library.Description
 {
-    using System.Xml.Serialization;
-
-    using Data;
-
     /// <summary>
     /// The fiction book description publishinfo.
     /// </summary>

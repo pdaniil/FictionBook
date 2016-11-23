@@ -51,9 +51,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FictionBook\FictionBook.csproj">
+    <ProjectReference Include="..\FictionBook\FictionBook.Library.csproj">
       <Project>{54d5efca-8a2b-4744-a478-83d7531b4d46}</Project>
-      <Name>FictionBook</Name>
+      <Name>FictionBook.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,7 +1,7 @@
-﻿namespace FictionBook.Base
-{
-    using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
+namespace FictionBook.Library.Base
+{
     /// <summary>
     /// The base data.
     /// </summary>

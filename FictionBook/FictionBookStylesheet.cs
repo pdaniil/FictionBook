@@ -1,9 +1,8 @@
-namespace FictionBook
+using System.Xml.Serialization;
+using FictionBook.Library.Base;
+
+namespace FictionBook.Library
 {
-    using System.Xml.Serialization;
-
-    using Base;
-
     /// <summary>
     /// The fiction book stylesheet.
     /// </summary>

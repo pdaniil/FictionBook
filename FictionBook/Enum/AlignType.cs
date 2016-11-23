@@ -1,6 +1,6 @@
 using System.Xml.Serialization;
 
-namespace FictionBook.Enum
+namespace FictionBook.Library.Enum
 {
     /// <summary>
     /// The align type.

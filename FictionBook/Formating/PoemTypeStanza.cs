@@ -1,8 +1,8 @@
-namespace FictionBook.Formating
-{
-    using System.Xml.Schema;
-    using System.Xml.Serialization;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
+namespace FictionBook.Library.Formating
+{
     /// <summary>
     /// The poem type stanza.
     /// </summary>

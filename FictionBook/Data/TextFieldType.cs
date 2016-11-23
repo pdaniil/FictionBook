@@ -1,10 +1,9 @@
-namespace FictionBook.Data
+using System.Xml.Schema;
+using System.Xml.Serialization;
+using FictionBook.Library.Base;
+
+namespace FictionBook.Library.Data
 {
-    using System.Xml.Schema;
-    using System.Xml.Serialization;
-
-    using Base;
-
     /// <summary>
     /// The text field type.
     /// </summary>

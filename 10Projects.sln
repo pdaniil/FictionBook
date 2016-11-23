@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "Program\Program.csproj", "{B23B124C-31D4-4523-85F5-317545F47A45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FictionBook", "FictionBook\FictionBook.csproj", "{54D5EFCA-8A2B-4744-A478-83D7531B4D46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FictionBook.Library", "FictionBook\FictionBook.Library.csproj", "{54D5EFCA-8A2B-4744-A478-83D7531B4D46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.App", "FictionBook.App\Books.App.csproj", "{8084BACD-9E7B-4B5C-9C3E-DBFFFF594465}"
 EndProject

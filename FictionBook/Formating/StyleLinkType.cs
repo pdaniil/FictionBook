@@ -1,10 +1,9 @@
-namespace FictionBook.Formating
+using System.Xml.Serialization;
+using FictionBook.Library.Base;
+using FictionBook.Library.Enum;
+
+namespace FictionBook.Library.Formating
 {
-    using System.Xml.Serialization;
-
-    using Base;
-    using Enum;
-
     /// <summary>
     /// The style link type.
     /// </summary>

@@ -1,4 +1,4 @@
-﻿namespace FictionBook.Base
+﻿namespace FictionBook.Library.Base
 {
     /// <summary>
     /// The base formating style.

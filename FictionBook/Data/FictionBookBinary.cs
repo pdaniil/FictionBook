@@ -1,7 +1,7 @@
-namespace FictionBook.Data
-{
-    using System.Xml.Serialization;
+using System.Xml.Serialization;
 
+namespace FictionBook.Library.Data
+{
     /// <summary>
     /// The fiction book binary.
     /// </summary>

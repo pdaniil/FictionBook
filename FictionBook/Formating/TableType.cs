@@ -1,9 +1,8 @@
-namespace FictionBook.Formating
+using System.Xml.Serialization;
+using FictionBook.Library.Base;
+
+namespace FictionBook.Library.Formating
 {
-    using System.Xml.Serialization;
-
-    using Base;
-
     /// <summary>
     /// The table type.
     /// </summary>

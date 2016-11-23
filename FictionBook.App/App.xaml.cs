@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Globalization;
 using Windows.System.UserProfile;
 using Windows.UI.Core;
+using Books.App.Core.Storage;
 using Books.App.Providers;
 using Books.App.Providers.Contracts;
 using Books.App.ViewModels;
 using Caliburn.Micro;
+using Microsoft.EntityFrameworkCore;
 
 namespace Books.App
 {
@@ -27,6 +30,7 @@ namespace Books.App
         public App()
         {
             InitializeComponent();
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
         #region Overrides of CaliburnApplication
@@ -37,10 +41,10 @@ namespace Books.App
 
             #region Apply Migrations
 
-            //using (var db = new LocalDatabaseContext())
-            //{
-            //    db.Database.Migrate();
-            //}
+            using (var db = new LocalDbContext())
+            {
+                db.Database.Migrate();
+            }
 
             #endregion
 
@@ -55,9 +59,10 @@ namespace Books.App
             #endregion
 
             #region Singleton
-                //.Singleton<LocalDatabaseContext>()
+                .Singleton<LocalDbContext>()
                 .Singleton<IMenuProvider, ShellMenuProvider>()
-                //.Singleton<IDatabaseProvider, LocalDatabaseProvider>()
+                .Singleton<ILocalDbProvider, LocalDbProvider>()
+                .Singleton<IBookProvider, BookProvider>()
             #endregion
 #if DEBUG
                 .Singleton<IInAppPurchase, SimulatorInAppPurchase>();

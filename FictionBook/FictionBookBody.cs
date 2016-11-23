@@ -1,11 +1,10 @@
-namespace FictionBook
+using System.Xml.Schema;
+using System.Xml.Serialization;
+using FictionBook.Library.Data;
+using FictionBook.Library.Formating;
+
+namespace FictionBook.Library
 {
-    using System.Xml.Schema;
-    using System.Xml.Serialization;
-
-    using Data;
-    using Formating;
-
     /// <summary>
     /// The fiction book body.
     /// </summary>

@@ -1,9 +1,8 @@
-﻿namespace FictionBook
+﻿using System.Xml.Serialization;
+using FictionBook.Library.Data;
+
+namespace FictionBook.Library
 {
-    using System.Xml.Serialization;
-
-    using Data;
-
     [XmlType(AnonymousType=true, Namespace="http://www.gribuser.ru/xml/fictionbook/2.0")]
     [XmlRoot(Namespace="http://www.gribuser.ru/xml/fictionbook/2.0", IsNullable=false)]
     public class FictionBook

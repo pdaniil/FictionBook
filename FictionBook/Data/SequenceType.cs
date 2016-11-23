@@ -1,8 +1,8 @@
-namespace FictionBook.Data
-{
-    using System.Xml.Schema;
-    using System.Xml.Serialization;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
+namespace FictionBook.Library.Data
+{
     /// <summary>
     /// The sequence type.
     /// </summary>

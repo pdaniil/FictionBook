@@ -4,6 +4,7 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:micro="using:Caliburn.Micro"
       mc:Ignorable="d">
     <Page.Resources>
         <Style TargetType="PivotHeaderItem">
@@ -14,11 +15,17 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot Title="LIBRARY" Foreground="Black">
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Pivot Grid.Row="0" Title="LIBRARY" Foreground="Black">
             <PivotItem Header="RECENT">
-                <controls:AdaptiveGridView x:Name="adv"
+                <controls:AdaptiveGridView x:Name="RecentGrid"
                                            HorizontalContentAlignment="Left"
-                                           ItemsSource="{Binding Path=Source}"
+                                           ItemsSource="{Binding Path=RecentLibrary}"
                                            StretchContentForSingleRow="False">
                     <controls:AdaptiveGridView.ItemTemplate>
                         <DataTemplate>
@@ -31,7 +38,7 @@
 
                                 <Image Grid.Row="0"
                                        Grid.RowSpan="2"
-                                       Source="{Binding Path=Cover}"
+                                       Source="{Binding Path=CoverImage}"
                                        Stretch="UniformToFill" />
 
                                 <Grid Grid.Row="1" Padding="2">
@@ -48,7 +55,53 @@
                                                FontWeight="SemiLight"
                                                Foreground="White"
                                                Opacity="1"
-                                               Text="{Binding Path=Name}"
+                                               Text="{Binding Path=Title}"
+                                               TextWrapping="Wrap" />
+                                    <TextBlock Grid.Row="1"
+                                               Opacity="1"
+                                               Text="{Binding Path=Author}" />
+                                </Grid>
+                            </Grid>
+
+                        </DataTemplate>
+                    </controls:AdaptiveGridView.ItemTemplate>
+                </controls:AdaptiveGridView>
+
+            </PivotItem>
+            <PivotItem Header="ALL">
+                <controls:AdaptiveGridView x:Name="AllGrid"
+                                           HorizontalContentAlignment="Left"
+                                           ItemsSource="{Binding Path=AllLibrary}"
+                                           StretchContentForSingleRow="False">
+                    <controls:AdaptiveGridView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="65*" />
+                                    <RowDefinition Height="35*" />
+                                </Grid.RowDefinitions>
+
+                                <Image Grid.Row="0"
+                                       Grid.RowSpan="2"
+                                       Source="{Binding Path=CoverImage}"
+                                       Stretch="UniformToFill" />
+
+                                <Grid Grid.Row="1" Padding="2">
+                                    <Grid.Background>
+                                        <SolidColorBrush Opacity="0.6" Color="Black" />
+                                    </Grid.Background>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="80*" />
+                                        <RowDefinition Height="20*" />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock FontSize="13"
+                                               FontWeight="SemiLight"
+                                               Foreground="White"
+                                               Opacity="1"
+                                               Text="{Binding Path=Title}"
                                                TextWrapping="Wrap" />
                                     <TextBlock Grid.Row="1"
                                                Opacity="1"
@@ -62,7 +115,22 @@
 
             </PivotItem>
         </Pivot>
-
+        <CommandBar Grid.Row="1"
+                            ClosedDisplayMode="Minimal"
+                            IsSticky="True"
+                            Visibility="{Binding BookCommandBarVisibility,
+                                                 UpdateSourceTrigger=PropertyChanged}">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton micro:Message.Attach="[Event Click] = [AddFromFile($source, $eventArgs)]"
+                                      Icon="Add"
+                                      IsCompact="True"
+                                      Label="Add from file" />
+                <AppBarButton micro:Message.Attach="[Event Click] = [AddFromFolder($source, $eventArgs)]"
+                                      Icon="Add"
+                                      IsCompact="True"
+                                      Label="Add from folder" />
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">
@@ -71,8 +139,10 @@
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="adv.DesiredWidth" Value="220" />
-                        <Setter Target="adv.ItemHeight" Value="330" />
+                        <Setter Target="AllGrid.DesiredWidth" Value="220" />
+                        <Setter Target="AllGrid.ItemHeight" Value="330" />
+                        <Setter Target="RecentGrid.DesiredWidth" Value="220" />
+                        <Setter Target="RecentGrid.ItemHeight" Value="330" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="NarrowState">
@@ -80,13 +150,13 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="adv.DesiredWidth" Value="150" />
-                        <Setter Target="adv.ItemHeight" Value="200" />
+                        <Setter Target="AllGrid.DesiredWidth" Value="150" />
+                        <Setter Target="AllGrid.ItemHeight" Value="200" />
+                        <Setter Target="RecentGrid.DesiredWidth" Value="150" />
+                        <Setter Target="RecentGrid.ItemHeight" Value="200" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </Grid>
-
-
 </Page>

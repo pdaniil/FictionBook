@@ -67,18 +67,7 @@
                     </Frame.ContentTransitions>
                 </Frame>
 
-                <CommandBar Grid.Row="1"
-                            ClosedDisplayMode="Minimal"
-                            IsSticky="True"
-                            Visibility="{Binding BookCommandBarVisibility,
-                                                 UpdateSourceTrigger=PropertyChanged}">
-                    <CommandBar.PrimaryCommands>
-                        <AppBarButton x:Name="AddBook"
-                                      Icon="Add"
-                                      IsCompact="True"
-                                      Label="Add new" />
-                    </CommandBar.PrimaryCommands>
-                </CommandBar>
+                
             </Grid>
         </controls:HamburgerMenu>
     </Grid>

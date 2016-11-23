@@ -1,12 +1,11 @@
-namespace FictionBook.Formating
+using System.Diagnostics;
+using System.Xml.Serialization;
+using FictionBook.Library.Base;
+using FictionBook.Library.Data;
+using FictionBook.Library.Enum;
+
+namespace FictionBook.Library.Formating
 {
-    using System.Diagnostics;
-    using System.Xml.Serialization;
-
-    using Base;
-    using Data;
-    using Enum;
-
     /// <summary>
     /// The author type.
     /// </summary>

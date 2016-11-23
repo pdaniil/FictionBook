@@ -89,6 +89,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="App.config" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -97,9 +98,20 @@
     </Compile>
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Controls\MenuItem.cs" />
+    <Compile Include="Core\Storage\LocalDbContext.cs" />
+    <Compile Include="Core\Storage\Models\BookModel.cs" />
+    <Compile Include="Migrations\20161123072521_InitialMigration.cs" />
+    <Compile Include="Migrations\20161123072521_InitialMigration.designer.cs">
+      <DependentUpon>20161123072521_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\LocalDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\BookProvider.cs" />
+    <Compile Include="Providers\Contracts\IBookProvider.cs" />
     <Compile Include="Providers\Contracts\IInAppPurchase.cs" />
+    <Compile Include="Providers\Contracts\ILocalDbProvider.cs" />
     <Compile Include="Providers\Contracts\IMenuProvider.cs" />
+    <Compile Include="Providers\LocalDbProvider.cs" />
     <Compile Include="Providers\MarketInAppPurchase.cs" />
     <Compile Include="Providers\ShellMenuProvider.cs" />
     <Compile Include="Providers\SimulatorInAppPurchase.cs" />
@@ -152,9 +164,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FictionBook\FictionBook.csproj">
+    <ProjectReference Include="..\FictionBook\FictionBook.Library.csproj">
       <Project>{54d5efca-8a2b-4744-a478-83d7531b4d46}</Project>
-      <Name>FictionBook</Name>
+      <Name>FictionBook.Library</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

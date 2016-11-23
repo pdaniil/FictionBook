@@ -1,10 +1,9 @@
-namespace FictionBook.Formating
+using System.ComponentModel;
+using System.Xml.Serialization;
+using FictionBook.Library.Enum;
+
+namespace FictionBook.Library.Formating
 {
-    using System.ComponentModel;
-    using System.Xml.Serialization;
-
-    using Enum;
-
     /// <summary>
     /// The table type tr.
     /// </summary>

@@ -1,9 +1,8 @@
-namespace FictionBook
+using System.Xml.Serialization;
+using FictionBook.Library.Description;
+
+namespace FictionBook.Library
 {
-    using System.Xml.Serialization;
-
-    using Description;
-
     /// <summary>
     /// The fiction book description.
     /// </summary>

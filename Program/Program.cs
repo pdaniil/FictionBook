@@ -84,7 +84,7 @@
         {
             try
             {
-                var book = Deserialize<FictionBook.FictionBook>(file);
+                var book = Deserialize<FictionBook.Library.FictionBook>(file);
                 var titleInfo = book.Description.TitleInfo;
                 Console.WriteLine(titleInfo.BookTitle);
                 Console.WriteLine("\t" + titleInfo.Author[0].Items[0] + " " + titleInfo.Author[0].Items[1]);

@@ -1,10 +1,9 @@
-namespace FictionBook.Formating
+using System.Xml.Serialization;
+using FictionBook.Library.Base;
+using FictionBook.Library.Data;
+
+namespace FictionBook.Library.Formating
 {
-    using System.Xml.Serialization;
-
-    using Base;
-    using Data;
-
     /// <summary>
     /// The epigraph type.
     /// </summary>

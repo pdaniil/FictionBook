@@ -6,91 +6,68 @@ using System.Xml;
 using System.Xml.Serialization;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Pickers;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Books.App.Core.Storage.Models;
+using Books.App.Providers.Contracts;
 using Caliburn.Micro;
 
 namespace Books.App.ViewModels
 {
-    public class Book
-    {
-        public BitmapImage Cover { get; set; }
-        public string Name { get; set; }
-        public string Author { get; set; }
-    }
-
     public sealed class LibraryPageViewModel
         : Screen
     {
+        #region Private Members
 
+        private readonly IBookProvider _bookProvider;
+        private readonly ILocalDbProvider _localDbProvider;
 
-        public BindableCollection<Book> Source { get; set; }
+        private BindableCollection<BookModel> _recentLibrary;
+        private BindableCollection<BookModel> _allLibrary;
 
-        public LibraryPageViewModel()
+        #endregion
+
+        public BindableCollection<BookModel> RecentLibrary => _recentLibrary;
+        public BindableCollection<BookModel> AllLibrary => _allLibrary;
+
+        public LibraryPageViewModel(IBookProvider bookProvider, ILocalDbProvider localDbProvider)
         {
-            PickData();
+            _bookProvider = bookProvider;
+            _localDbProvider = localDbProvider;
+
+            UpdateLibraries();
+        }
+
+        public async void UpdateRecentLibrary()
+        {
+            _recentLibrary = new BindableCollection<BookModel>(await _localDbProvider.GetRecentBooks(7));
+        }
+        public async void UpdateAllLibrary()
+        {
+            _allLibrary = new BindableCollection<BookModel>(await _localDbProvider.GetAllBooks());
+        }
+
+        public void UpdateLibraries()
+        {
+            UpdateRecentLibrary();
+            UpdateAllLibrary();
         }
 
 
-        public async void PickData()
+        public async void AddFromFile(object sender, RoutedEventArgs eventArgs)
         {
-            Source = new BindableCollection<Book>();
+            await _bookProvider.GetBookFromFile();
 
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            
-
-            var picker = new FolderPicker();
-            picker.FileTypeFilter.Add(".fb2");
-
-            var w = await picker.PickSingleFolderAsync();
-
-            var files = await w.GetFilesAsync();
-            foreach (var storageFile in files)
-            {
-
-                try
-                {
-                    var book = Deserialize<FictionBook.FictionBook>(await storageFile.OpenStreamForReadAsync());
-
-
-
-
-                    MemoryStream ms = new MemoryStream(book.Binary.FirstOrDefault(x => x.Id == book.Description.TitleInfo.Coverpage[0].Href.Replace("#", "")).Value, true);
-                    ms.Position = 0;
-
-                    var image = new BitmapImage();
-                    await image.SetSourceAsync(ms.AsRandomAccessStream());
-
-                    Source.Add(new Book()
-                    {
-                        Name = book.Description.TitleInfo.BookTitle.Text,
-                        Cover = image
-                    });
-                }
-                catch (Exception ex)
-                {
-                    
-                }
-
-            }
+            UpdateRecentLibrary();
+            NotifyOfPropertyChange(nameof(RecentLibrary));
         }
-
-        public T Deserialize<T>(Stream stream)
+        public async void AddFromFolder(object sender, RoutedEventArgs eventArgs)
         {
-            var xmlSerializer = new XmlSerializer(typeof(T));
+            await _bookProvider.GetBooksFromFolder();
 
-            var settings = new XmlReaderSettings
-            {
-                CheckCharacters = true,
-                IgnoreComments = true,
-                IgnoreWhitespace = true
-            };
-
-            using (var reader = XmlReader.Create(stream, settings))
-            {
-                var result = (T) xmlSerializer.Deserialize(reader);
-                return result;
-            }
+            UpdateRecentLibrary();
+            NotifyOfPropertyChange(nameof(RecentLibrary));
         }
     }
 }
