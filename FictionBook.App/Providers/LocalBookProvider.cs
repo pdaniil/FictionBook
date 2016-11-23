@@ -13,20 +13,20 @@ using Microsoft.Toolkit.Uwp;
 
 namespace Books.App.Providers
 {
-    public class BookProvider : IBookProvider
+    public class LocalBookProvider : IBookProvider
     {
         #region Private Members
 
-        private readonly ILocalDbProvider _localDbProvider;
+        private readonly IDbBookProvider _localDbBookProvider;
 
         #endregion
 
-        public BookProvider(ILocalDbProvider localDbProvider)
+        public LocalBookProvider(IDbBookProvider localDbBookProvider)
         {
-            _localDbProvider = localDbProvider;
+            _localDbBookProvider = localDbBookProvider;
         }
 
-        public async Task<BookModel> GetBookFromFile()
+        public async Task<BookModel> LoadBookFromFile()
         {
             var filePicker = new FileOpenPicker()
             {
@@ -42,9 +42,13 @@ namespace Books.App.Providers
                 var book = Deserialize<FictionBook.Library.FictionBook>(await pickedFile.OpenStreamForReadAsync());
 
                 var title = book.Description.TitleInfo.BookTitle.Text;
-                var author = book.Description.TitleInfo.Author[0].Items.Select(x => x.Text).Aggregate((current, next) => current + " " + next);
+                var author =
+                    book.Description.TitleInfo.Author[0].Items.Select(x => x.Text)
+                        .Aggregate((current, next) => current + " " + next);
 
-                var cover = book.Binary.FirstOrDefault(x => x.Id == book.Description.TitleInfo.Coverpage[0].Href.Replace("#", "")).Value;
+                var cover =
+                    book.Binary.FirstOrDefault(
+                        x => x.Id == book.Description.TitleInfo.Coverpage[0].Href.Replace("#", "")).Value;
 
 
                 var bookId = Guid.NewGuid();
@@ -56,21 +60,21 @@ namespace Books.App.Providers
                     LastOpenedTime = DateTime.Now
                 };
 
-                var bookPath = await SaveBook(pickedFile.Name, book, bookModel, cover);
+                var bookPath = await SaveBookToFolder(pickedFile.Name, bookModel.Id.ToString(), Serialize(book),  cover);
 
                 bookModel.BookPath = bookPath;
                 bookModel.CoverPath = $"{bookPath}.png";
 
-                await _localDbProvider.SaveBook(bookModel);
+                await _localDbBookProvider.SaveBook(bookModel);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
+                //
             }
 
             return bookModel;
         }
-        public async Task<IEnumerable<BookModel>> GetBooksFromFolder()
+        public async Task<IEnumerable<BookModel>> LoadBooksFromFolder()
         {
             var folderPicker = new FolderPicker()
             {
@@ -108,35 +112,45 @@ namespace Books.App.Providers
                         LastOpenedTime = DateTime.Now
                     };
 
-                    var bookPath = await SaveBook(pickedFolderFile.Name, book, bookModel, cover);
+                    var bookPath = await SaveBookToFolder(pickedFolderFile.Name, bookModel.Id.ToString(), Serialize(book), cover);
 
                     bookModel.BookPath = bookPath;
                     bookModel.CoverPath = $"{bookPath}.png";
 
-                    await _localDbProvider.SaveBook(bookModel);
+                    await _localDbBookProvider.SaveBook(bookModel);
 
                     loadedBooks.Add(bookModel);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-
+                    //
                 }
             }
 
             return loadedBooks;
         }
 
-        private async Task<string> SaveBook(string fileName, FictionBook.Library.FictionBook book, BookModel bookModel, byte[] cover)
+        public async Task<string> SaveBookToFolder(string fileName, string directory, byte[] book, byte[] cover)
         {
             var localFolder = ApplicationData.Current.LocalFolder;
             localFolder = await localFolder.CreateFolderAsync("Books", CreationCollisionOption.OpenIfExists);
-            localFolder = await localFolder.CreateFolderAsync(bookModel.Id.ToString(), CreationCollisionOption.OpenIfExists);
+            localFolder = await localFolder.CreateFolderAsync(directory, CreationCollisionOption.OpenIfExists);
 
-            await localFolder.WriteBytesToFileAsync(Serialize(book), fileName);
+            await localFolder.WriteBytesToFileAsync(book, fileName);
             await localFolder.WriteBytesToFileAsync(cover, fileName + ".png");
 
-            return $@"Books\{bookModel.Id}\{fileName}";
+            return $@"Books\{directory}\{fileName}";
         }
+
+        public async Task<FictionBook.Library.FictionBook> LoadBook(BookModel bookModel)
+        {
+            var localFolder = ApplicationData.Current.LocalFolder;
+            var book = Deserialize<FictionBook.Library.FictionBook>(await localFolder.OpenStreamForReadAsync(bookModel.BookPath));
+
+            return book;
+        }
+
+        #region Serialize/Deserialize
 
         private byte[] Serialize<T>(T model)
         {
@@ -172,5 +186,7 @@ namespace Books.App.Providers
                 return result;
             }
         }
+
+        #endregion
     }
 }

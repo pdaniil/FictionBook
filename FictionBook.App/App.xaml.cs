@@ -61,8 +61,8 @@ namespace Books.App
             #region Singleton
                 .Singleton<LocalDbContext>()
                 .Singleton<IMenuProvider, ShellMenuProvider>()
-                .Singleton<ILocalDbProvider, LocalDbProvider>()
-                .Singleton<IBookProvider, BookProvider>()
+                .Singleton<IDbBookProvider, LocalDbBookProvider>()
+                .Singleton<IBookProvider, LocalBookProvider>()
             #endregion
 #if DEBUG
                 .Singleton<IInAppPurchase, SimulatorInAppPurchase>();

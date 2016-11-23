@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Books.App.Providers
 {
-    public class LocalDbProvider : ILocalDbProvider
+    public class LocalDbBookProvider : IDbBookProvider
     {
         private readonly LocalDbContext _dbContext;
 
-        public LocalDbProvider(LocalDbContext dbContext)
+        public LocalDbBookProvider(LocalDbContext dbContext)
         {
             _dbContext = dbContext;
         }

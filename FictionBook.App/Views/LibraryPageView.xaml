@@ -15,51 +15,64 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Pivot Grid.Row="0" Title="LIBRARY" Foreground="Black">
+        <Pivot Title="LIBRARY"
+               Grid.Row="0"
+               Foreground="Black">
             <PivotItem Header="RECENT">
                 <controls:AdaptiveGridView x:Name="RecentGrid"
                                            HorizontalContentAlignment="Left"
+                                           micro:Message.Attach="[Event ItemClick] = [BookClick($source, $eventArgs)]"
+                                           IsItemClickEnabled="True"
                                            ItemsSource="{Binding Path=RecentLibrary}"
+                                           SelectionMode="None"
                                            StretchContentForSingleRow="False">
                     <controls:AdaptiveGridView.ItemTemplate>
                         <DataTemplate>
 
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="65*" />
-                                    <RowDefinition Height="35*" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
+
                                 <Image Grid.Row="0"
-                                       Grid.RowSpan="2"
+                                       Grid.RowSpan="3"
                                        Source="{Binding Path=CoverImage}"
                                        Stretch="UniformToFill" />
 
-                                <Grid Grid.Row="1" Padding="2">
+                                <Grid Grid.Row="0" Padding="1">
                                     <Grid.Background>
                                         <SolidColorBrush Opacity="0.6" Color="Black" />
                                     </Grid.Background>
 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="80*" />
-                                        <RowDefinition Height="20*" />
-                                    </Grid.RowDefinitions>
+                                    <TextBlock VerticalAlignment="Bottom"
+                                               FontSize="14"
+                                               FontWeight="SemiBold"
+                                               Foreground="White"
+                                               Text="{Binding Path=Author}" />
+                                </Grid>
 
-                                    <TextBlock FontSize="13"
+
+
+                                <Grid Grid.Row="2" Padding="1">
+                                    <Grid.Background>
+                                        <SolidColorBrush Opacity="0.6" Color="Black" />
+                                    </Grid.Background>
+
+                                    <TextBlock VerticalAlignment="Bottom"
+                                               FontSize="13"
                                                FontWeight="SemiLight"
                                                Foreground="White"
-                                               Opacity="1"
                                                Text="{Binding Path=Title}"
-                                               TextWrapping="Wrap" />
-                                    <TextBlock Grid.Row="1"
-                                               Opacity="1"
-                                               Text="{Binding Path=Author}" />
+                                               TextWrapping="WrapWholeWords" />
+
                                 </Grid>
                             </Grid>
 
@@ -87,14 +100,14 @@
                                        Source="{Binding Path=CoverImage}"
                                        Stretch="UniformToFill" />
 
-                                <Grid Grid.Row="1" Padding="2">
+                                <Grid Grid.Row="1" Padding="1">
                                     <Grid.Background>
                                         <SolidColorBrush Opacity="0.6" Color="Black" />
                                     </Grid.Background>
 
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="80*" />
-                                        <RowDefinition Height="20*" />
+                                        <RowDefinition Height="75*" />
+                                        <RowDefinition Height="25*" />
                                     </Grid.RowDefinitions>
 
                                     <TextBlock FontSize="13"
@@ -102,8 +115,12 @@
                                                Foreground="White"
                                                Opacity="1"
                                                Text="{Binding Path=Title}"
-                                               TextWrapping="Wrap" />
+                                               TextWrapping="WrapWholeWords" />
                                     <TextBlock Grid.Row="1"
+                                               Margin="0"
+                                               FontSize="14"
+                                               FontWeight="SemiBold"
+                                               Foreground="White"
                                                Opacity="1"
                                                Text="{Binding Path=Author}" />
                                 </Grid>
@@ -116,19 +133,19 @@
             </PivotItem>
         </Pivot>
         <CommandBar Grid.Row="1"
-                            ClosedDisplayMode="Minimal"
-                            IsSticky="True"
-                            Visibility="{Binding BookCommandBarVisibility,
-                                                 UpdateSourceTrigger=PropertyChanged}">
+                    ClosedDisplayMode="Minimal"
+                    IsSticky="True"
+                    Visibility="{Binding BookCommandBarVisibility,
+                                         UpdateSourceTrigger=PropertyChanged}">
             <CommandBar.PrimaryCommands>
                 <AppBarButton micro:Message.Attach="[Event Click] = [AddFromFile($source, $eventArgs)]"
-                                      Icon="Add"
-                                      IsCompact="True"
-                                      Label="Add from file" />
+                              Icon="Add"
+                              IsCompact="True"
+                              Label="Add from file" />
                 <AppBarButton micro:Message.Attach="[Event Click] = [AddFromFolder($source, $eventArgs)]"
-                                      Icon="Add"
-                                      IsCompact="True"
-                                      Label="Add from folder" />
+                              Icon="Add"
+                              IsCompact="True"
+                              Label="Add from folder" />
             </CommandBar.PrimaryCommands>
         </CommandBar>
 

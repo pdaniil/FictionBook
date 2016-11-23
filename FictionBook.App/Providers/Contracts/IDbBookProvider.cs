@@ -4,7 +4,7 @@ using Books.App.Core.Storage.Models;
 
 namespace Books.App.Providers.Contracts
 {
-    public interface ILocalDbProvider
+    public interface IDbBookProvider
     {
         Task<BookModel> GetBook();
         Task<IEnumerable<BookModel>> GetAllBooks();

@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Books.App.Core.Storage.Models;
@@ -21,7 +22,7 @@ namespace Books.App.ViewModels
         #region Private Members
 
         private readonly IBookProvider _bookProvider;
-        private readonly ILocalDbProvider _localDbProvider;
+        private readonly IDbBookProvider _localDbProvider;
 
         private BindableCollection<BookModel> _recentLibrary;
         private BindableCollection<BookModel> _allLibrary;
@@ -31,7 +32,7 @@ namespace Books.App.ViewModels
         public BindableCollection<BookModel> RecentLibrary => _recentLibrary;
         public BindableCollection<BookModel> AllLibrary => _allLibrary;
 
-        public LibraryPageViewModel(IBookProvider bookProvider, ILocalDbProvider localDbProvider)
+        public LibraryPageViewModel(IBookProvider bookProvider, IDbBookProvider localDbProvider)
         {
             _bookProvider = bookProvider;
             _localDbProvider = localDbProvider;
@@ -57,17 +58,22 @@ namespace Books.App.ViewModels
 
         public async void AddFromFile(object sender, RoutedEventArgs eventArgs)
         {
-            await _bookProvider.GetBookFromFile();
+            await _bookProvider.LoadBookFromFile();
 
             UpdateRecentLibrary();
             NotifyOfPropertyChange(nameof(RecentLibrary));
         }
         public async void AddFromFolder(object sender, RoutedEventArgs eventArgs)
         {
-            await _bookProvider.GetBooksFromFolder();
+            await _bookProvider.LoadBooksFromFolder();
 
             UpdateRecentLibrary();
             NotifyOfPropertyChange(nameof(RecentLibrary));
+        }
+
+        public async void BookClick(object sender, ItemClickEventArgs eventArgs)
+        {
+            
         }
     }
 }
