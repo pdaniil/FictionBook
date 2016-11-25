@@ -6,12 +6,56 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:micro="using:Caliburn.Micro"
       mc:Ignorable="d">
+
     <Page.Resources>
         <Style TargetType="PivotHeaderItem">
             <Style.Setters>
                 <Setter Property="FontSize" Value="15" />
             </Style.Setters>
         </Style>
+
+        <DataTemplate x:Key="BookPreviewTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Image Grid.Row="0"
+                       Grid.RowSpan="3"
+                       Source="{Binding Path=CoverImage}"
+                       Stretch="UniformToFill" />
+
+                <Grid Grid.Row="0" Padding="1">
+                    <Grid.Background>
+                        <SolidColorBrush Opacity="0.6" Color="Black" />
+                    </Grid.Background>
+
+                    <TextBlock VerticalAlignment="Bottom"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="White"
+                               Text="{Binding Path=Author}" />
+                </Grid>
+
+
+
+                <Grid Grid.Row="2" Padding="1">
+                    <Grid.Background>
+                        <SolidColorBrush Opacity="0.6" Color="Black" />
+                    </Grid.Background>
+
+                    <TextBlock VerticalAlignment="Bottom"
+                               FontSize="13"
+                               FontWeight="SemiLight"
+                               Foreground="White"
+                               Text="{Binding Path=Title}"
+                               TextWrapping="WrapWholeWords" />
+
+                </Grid>
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -28,107 +72,18 @@
                                            HorizontalContentAlignment="Left"
                                            micro:Message.Attach="[Event ItemClick] = [BookClick($source, $eventArgs)]"
                                            IsItemClickEnabled="True"
+                                           ItemTemplate="{StaticResource BookPreviewTemplate}"
                                            ItemsSource="{Binding Path=RecentLibrary}"
                                            SelectionMode="None"
-                                           StretchContentForSingleRow="False">
-                    <controls:AdaptiveGridView.ItemTemplate>
-                        <DataTemplate>
-
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-
-                                <Image Grid.Row="0"
-                                       Grid.RowSpan="3"
-                                       Source="{Binding Path=CoverImage}"
-                                       Stretch="UniformToFill" />
-
-                                <Grid Grid.Row="0" Padding="1">
-                                    <Grid.Background>
-                                        <SolidColorBrush Opacity="0.6" Color="Black" />
-                                    </Grid.Background>
-
-                                    <TextBlock VerticalAlignment="Bottom"
-                                               FontSize="14"
-                                               FontWeight="SemiBold"
-                                               Foreground="White"
-                                               Text="{Binding Path=Author}" />
-                                </Grid>
-
-
-
-                                <Grid Grid.Row="2" Padding="1">
-                                    <Grid.Background>
-                                        <SolidColorBrush Opacity="0.6" Color="Black" />
-                                    </Grid.Background>
-
-                                    <TextBlock VerticalAlignment="Bottom"
-                                               FontSize="13"
-                                               FontWeight="SemiLight"
-                                               Foreground="White"
-                                               Text="{Binding Path=Title}"
-                                               TextWrapping="WrapWholeWords" />
-
-                                </Grid>
-                            </Grid>
-
-                        </DataTemplate>
-                    </controls:AdaptiveGridView.ItemTemplate>
-                </controls:AdaptiveGridView>
+                                           StretchContentForSingleRow="False" />
 
             </PivotItem>
             <PivotItem Header="ALL">
                 <controls:AdaptiveGridView x:Name="AllGrid"
                                            HorizontalContentAlignment="Left"
+                                           ItemTemplate="{StaticResource BookPreviewTemplate}"
                                            ItemsSource="{Binding Path=AllLibrary}"
-                                           StretchContentForSingleRow="False">
-                    <controls:AdaptiveGridView.ItemTemplate>
-                        <DataTemplate>
-
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="65*" />
-                                    <RowDefinition Height="35*" />
-                                </Grid.RowDefinitions>
-
-                                <Image Grid.Row="0"
-                                       Grid.RowSpan="2"
-                                       Source="{Binding Path=CoverImage}"
-                                       Stretch="UniformToFill" />
-
-                                <Grid Grid.Row="1" Padding="1">
-                                    <Grid.Background>
-                                        <SolidColorBrush Opacity="0.6" Color="Black" />
-                                    </Grid.Background>
-
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="75*" />
-                                        <RowDefinition Height="25*" />
-                                    </Grid.RowDefinitions>
-
-                                    <TextBlock FontSize="13"
-                                               FontWeight="SemiLight"
-                                               Foreground="White"
-                                               Opacity="1"
-                                               Text="{Binding Path=Title}"
-                                               TextWrapping="WrapWholeWords" />
-                                    <TextBlock Grid.Row="1"
-                                               Margin="0"
-                                               FontSize="14"
-                                               FontWeight="SemiBold"
-                                               Foreground="White"
-                                               Opacity="1"
-                                               Text="{Binding Path=Author}" />
-                                </Grid>
-                            </Grid>
-
-                        </DataTemplate>
-                    </controls:AdaptiveGridView.ItemTemplate>
-                </controls:AdaptiveGridView>
+                                           StretchContentForSingleRow="False" />
 
             </PivotItem>
         </Pivot>

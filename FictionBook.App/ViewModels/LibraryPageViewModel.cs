@@ -1,15 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
-using Windows.Graphics.Imaging;
-using Windows.Storage.Pickers;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Books.App.Core.Storage.Models;
 using Books.App.Providers.Contracts;
 using Caliburn.Micro;

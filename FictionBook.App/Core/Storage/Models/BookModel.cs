@@ -17,6 +17,7 @@ namespace Books.App.Core.Storage.Models
 
         public string BookPath { get; set; }
         public string CoverPath { get; set; }
+        public string FolderPath { get; set; }
 
         [NotMapped]
         public string CoverImage => Path.Combine(ApplicationData.Current.LocalFolder.Path, CoverPath);

@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -104,6 +104,10 @@
     <Compile Include="Migrations\20161123072521_InitialMigration.designer.cs">
       <DependentUpon>20161123072521_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20161124183048_BookFolderPath.cs" />
+    <Compile Include="Migrations\20161124183048_BookFolderPath.designer.cs">
+      <DependentUpon>20161124183048_BookFolderPath.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\LocalDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\LocalBookProvider.cs" />
@@ -111,7 +115,7 @@
     <Compile Include="Providers\Contracts\IInAppPurchase.cs" />
     <Compile Include="Providers\Contracts\IDbBookProvider.cs" />
     <Compile Include="Providers\Contracts\IMenuProvider.cs" />
-    <Compile Include="Providers\LocalDbProvider.cs" />
+    <Compile Include="Providers\LocalDbBookProvider.cs" />
     <Compile Include="Providers\MarketInAppPurchase.cs" />
     <Compile Include="Providers\ShellMenuProvider.cs" />
     <Compile Include="Providers\SimulatorInAppPurchase.cs" />

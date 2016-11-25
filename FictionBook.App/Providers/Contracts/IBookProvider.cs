@@ -10,5 +10,7 @@ namespace Books.App.Providers.Contracts
         Task<BookModel> LoadBookFromFile();
 
         Task<string> SaveBookToFolder(string fileName, string directory, byte[] book, byte[] cover);
+
+        Task DeleteBook(BookModel book);
     }
 }

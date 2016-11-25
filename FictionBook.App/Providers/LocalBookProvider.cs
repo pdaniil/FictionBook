@@ -142,6 +142,15 @@ namespace Books.App.Providers
             return $@"Books\{directory}\{fileName}";
         }
 
+        public async Task DeleteBook(BookModel book)
+        {
+            var localFolder = ApplicationData.Current.LocalFolder;
+            localFolder = await localFolder.GetFolderAsync("Books");
+            localFolder = await localFolder.GetFolderAsync(book.FolderPath);
+
+            await localFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
+        }
+
         public async Task<FictionBook.Library.FictionBook> LoadBook(BookModel bookModel)
         {
             var localFolder = ApplicationData.Current.LocalFolder;
