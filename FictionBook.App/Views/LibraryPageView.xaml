@@ -84,10 +84,10 @@
             <PivotItem Header="RECENT">
                 <controls:AdaptiveGridView x:Name="RecentGrid" 
                                            HorizontalContentAlignment="Left"
-                                           micro:Message.Attach="[Event ItemClick] = [BookClick($source, $eventArgs)]"
-                                           IsItemClickEnabled="True" 
+                                           micro:Message.Attach="[Event ItemClick] = [OpenBook($eventArgs)]"
+                                           IsItemClickEnabled="{Binding Path=BookClickEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                            ItemsSource="{Binding Path=RecentLibrary}"
-                                           SelectionMode="{Binding Path=RecentBooksSelectionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding Path=SelectedRecentBook}"
+                                           SelectionMode="{Binding Path=RecentBooksSelectionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding Path=SelectedRecentBook, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            StretchContentForSingleRow="False">
                     <interactivity:Interaction.Behaviors>
                         <attached:BindableSelectedItems SelectedItems="{Binding Path=SelectedRecentBooks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -103,10 +103,10 @@
                                 <FlyoutBase.AttachedFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem micro:Action.TargetWithoutContext="{Binding Path=DataContext, ElementName=Page}"
-                                                        micro:Message.Attach="[Event Click] = [SelectClick($source, $dataContext)]"
-                                                        Text="123" />
-                                        <MenuFlyoutItem Text="456" />
-                                        <MenuFlyoutItem Text="789" />
+                                                        micro:Message.Attach="[Event Click] = [SelectionMode()]"
+                                                        Text="Select" />
+                                        <MenuFlyoutItem Text="Delete" micro:Action.TargetWithoutContext="{Binding Path=DataContext, ElementName=Page}"
+                                                        micro:Message.Attach="[Event Click] = [DeleteBooks()]"/>
                                     </MenuFlyout>
                                 </FlyoutBase.AttachedFlyout>
 
@@ -149,6 +149,7 @@
                     </controls:AdaptiveGridView.ItemTemplate>
                 </controls:AdaptiveGridView>
             </PivotItem>
+            
             <PivotItem Header="ALL">
                 <controls:AdaptiveGridView x:Name="AllGrid"
                                            HorizontalContentAlignment="Left"
@@ -164,12 +165,13 @@
                     Visibility="{Binding BookCommandBarVisibility,
                                          UpdateSourceTrigger=PropertyChanged}">
             <CommandBar.PrimaryCommands>
-                <AppBarButton micro:Message.Attach="[Event Click] = [AddFromFile($source, $eventArgs)]"
+                <AppBarButton micro:Message.Attach="[Event Click] = [AddFromFile()]"
                               Icon="Add"
                               IsCompact="True"
                               Label="Add" />
             </CommandBar.PrimaryCommands>
         </CommandBar>
+        
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">
                 <VisualState x:Name="WideState">

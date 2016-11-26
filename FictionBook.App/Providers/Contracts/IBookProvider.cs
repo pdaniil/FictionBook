@@ -7,11 +7,12 @@
 
     public interface IBookProvider
     {
-        Task<IEnumerable<BookModel>> LoadBooksFromFolder();
-        Task<BookModel> LoadBookFromFile();
+        Task<IEnumerable<BookModel>> ImportBooksFromFolder();
+        Task<BookModel> ImportBookFromFile();
 
         Task<string> SaveBookToFolder(string fileName, string directory, byte[] book, byte[] cover);
 
         Task DeleteBook(BookModel book);
+        Task DeleteBooks(IEnumerable<BookModel> books);
     }
 }

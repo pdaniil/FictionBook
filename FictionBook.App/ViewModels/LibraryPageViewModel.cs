@@ -17,35 +17,61 @@
         #region Private Members
 
         private readonly IBookProvider _bookProvider;
-        private readonly IDbBookProvider _localDbProvider;
+        private readonly IDbBookProvider _bookDbProvider;
 
         private BindableCollection<BookModel> _recentLibrary;
         private BindableCollection<BookModel> _allLibrary;
+        private bool _bookClickEnabled = true;
+        private ListViewSelectionMode _recentBooksSelectionMode = ListViewSelectionMode.None;
 
         #endregion
+
+        #region Properties
 
         public BindableCollection<BookModel> RecentLibrary => _recentLibrary;
         public BindableCollection<BookModel> AllLibrary => _allLibrary;
 
-        public ListViewSelectionMode RecentBooksSelectionMode { get; set; } = ListViewSelectionMode.None;
-
         public IList<object> SelectedRecentBooks { get; set; }
 
-        public LibraryPageViewModel(IBookProvider bookProvider, IDbBookProvider localDbProvider)
+        public ListViewSelectionMode RecentBooksSelectionMode
+        {
+            get { return _recentBooksSelectionMode; }
+            set
+            {
+                _recentBooksSelectionMode = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public BookModel SelectedRecentBook { get; set; }
+        public bool BookClickEnabled
+        {
+            get { return _bookClickEnabled; }
+            set
+            {
+                _bookClickEnabled = value; 
+                NotifyOfPropertyChange();
+            }
+        }
+
+        #endregion
+
+        public LibraryPageViewModel(IBookProvider bookProvider, IDbBookProvider bookDbProvider)
         {
             _bookProvider = bookProvider;
-            _localDbProvider = localDbProvider;
+            _bookDbProvider = bookDbProvider;
 
             UpdateLibraries();
         }
 
+
         public async void UpdateRecentLibrary()
         {
-            _recentLibrary = new BindableCollection<BookModel>(await _localDbProvider.GetRecentBooks(7));
+            _recentLibrary = new BindableCollection<BookModel>(await _bookDbProvider.GetRecentBooks(7));
         }
         public async void UpdateAllLibrary()
         {
-            _allLibrary = new BindableCollection<BookModel>(await _localDbProvider.GetAllBooks());
+            _allLibrary = new BindableCollection<BookModel>(await _bookDbProvider.GetAllBooks());
         }
 
         public void UpdateLibraries()
@@ -70,35 +96,51 @@
 
         #endregion
 
-        public async void AddFromFile(object sender, RoutedEventArgs eventArgs)
+        public async void AddFromFile()
         {
-            await _bookProvider.LoadBookFromFile();
+            await _bookProvider.ImportBooksFromFolder();
 
             UpdateRecentLibrary();
             NotifyOfPropertyChange(nameof(RecentLibrary));
         }
-        public async void AddFromFolder(object sender, RoutedEventArgs eventArgs)
+        public async void AddFromFolder()
         {
-            await _bookProvider.LoadBooksFromFolder();
+            await _bookProvider.ImportBooksFromFolder();
 
             UpdateRecentLibrary();
             NotifyOfPropertyChange(nameof(RecentLibrary));
         }
 
-        public void BookClick(object sender, ItemClickEventArgs eventArgs)
+        public void OpenBook(ItemClickEventArgs eventArgs)
         {
             
         }
+
         public void SelectionMode()
+        {
+            BookClickEnabled = false;
+
+            BookClickEnabled = RecentBooksSelectionMode != ListViewSelectionMode.Multiple;
+            RecentBooksSelectionMode = RecentBooksSelectionMode == ListViewSelectionMode.None ? ListViewSelectionMode.Multiple : ListViewSelectionMode.None;
+            
+            NotifyOfPropertyChange(nameof(RecentBooksSelectionMode));
+        }
+
+        public async void DeleteBooks()
         {
             var selectedBooks = SelectedRecentBooks?.Cast<BookModel>();
             if (selectedBooks?.Count() > 1)
             {
-                
-            } 
+                await _bookProvider.DeleteBooks(selectedBooks);
+                await _bookDbProvider.DeleteBooks(selectedBooks);
+            }
+            else
+            {
+                await _bookProvider.DeleteBook(SelectedRecentBook);
+                await _bookDbProvider.DeleteBook(SelectedRecentBook);
+            }
 
-            RecentBooksSelectionMode = RecentBooksSelectionMode == ListViewSelectionMode.None ? ListViewSelectionMode.Multiple : ListViewSelectionMode.None;
-            NotifyOfPropertyChange(nameof(RecentBooksSelectionMode));
+            UpdateLibraries();
         }
     }
 }

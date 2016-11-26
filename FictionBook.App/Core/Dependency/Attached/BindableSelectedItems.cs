@@ -1,4 +1,7 @@
-﻿namespace Books.App.Core.Dependency.Attached
+﻿using System;
+using Windows.UI.Xaml.Input;
+
+namespace Books.App.Core.Dependency.Attached
 {
     using System.Collections.Generic;
 
@@ -25,17 +28,23 @@
         protected override void OnAttached()
         {
             AssociatedObject.SelectionChanged += AssociatedObjectOnSelectionChanged;
+            AssociatedObject.RightTapped += AssociatedObjectOnRightTapped;
         }
-        
         protected override void OnDetaching()
         {
             AssociatedObject.SelectionChanged -= AssociatedObjectOnSelectionChanged;
+            AssociatedObject.RightTapped -= AssociatedObjectOnRightTapped;
         }
 
         private void AssociatedObjectOnSelectionChanged(object sender, SelectionChangedEventArgs selectionChangedEventArgs)
         {
             var adaptiveGridView = sender as AdaptiveGridView;
             if (adaptiveGridView != null) this.SelectedItems = adaptiveGridView.SelectedItems;
+        }
+        private void AssociatedObjectOnRightTapped(object sender, RightTappedRoutedEventArgs rightTappedRoutedEventArgs)
+        {
+            if(AssociatedObject.SelectionMode == ListViewSelectionMode.None)
+                AssociatedObject.SelectedItem = (rightTappedRoutedEventArgs.OriginalSource as FrameworkElement).DataContext;
         }
 
         #endregion

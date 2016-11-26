@@ -5,6 +5,8 @@
     using System.Threading.Tasks;
     using System.Collections.Generic;
 
+    using Microsoft.EntityFrameworkCore;
+
     using Contracts;
     using Core.Database;
     using Models.Database;
@@ -23,9 +25,13 @@
             _dbContext = dbContext;
         }
 
-        public Task<BookModel> GetBook()
+
+        #region Getting books
+
+        public async Task<BookModel> GetBook(Guid bookId)
         {
-            throw new System.NotImplementedException();
+            var book = await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == bookId);
+            return book;
         }
 
         public Task<IEnumerable<BookModel>> GetAllBooks()
@@ -38,10 +44,31 @@
             return Task.FromResult(_dbContext.Books.Where(x => x.LastOpenedTime >= DateTime.Now.Add(TimeSpan.FromDays(-days))).AsEnumerable());
         }
 
+        #endregion
+
+        #region Deleting books
+
+        public async Task DeleteBook(BookModel book)
+        {
+            _dbContext.Books.Remove(book);
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task DeleteBooks(IEnumerable<BookModel> books)
+        {
+            _dbContext.Books.RemoveRange(books);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        #endregion
+
+        #region Saving books
+
         public async Task SaveBook(BookModel book)
         {
             await _dbContext.Books.AddAsync(book);
             await _dbContext.SaveChangesAsync();
         }
+
+        #endregion
     }
 }

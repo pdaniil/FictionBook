@@ -30,7 +30,10 @@
             _localDbBookProvider = localDbBookProvider;
         }
 
-        public async Task<BookModel> LoadBookFromFile()
+
+        #region Importing books
+
+        public async Task<BookModel> ImportBookFromFile()
         {
             var filePicker = new FileOpenPicker()
             {
@@ -55,10 +58,9 @@
                         x => x.Id == book.Description.TitleInfo.Coverpage[0].Href.Replace("#", "")).Value;
 
 
-                var bookId = Guid.NewGuid();
                 bookModel = new BookModel
                 {
-                    Id = bookId,
+                    Id = Guid.NewGuid(),
                     Author = author,
                     Title = title,
                     LastOpenedTime = DateTime.Now
@@ -68,6 +70,7 @@
 
                 bookModel.BookPath = bookPath;
                 bookModel.CoverPath = $"{bookPath}.png";
+                bookModel.FolderPath = bookModel.Id.ToString();
 
                 await _localDbBookProvider.SaveBook(bookModel);
             }
@@ -78,11 +81,11 @@
 
             return bookModel;
         }
-        public async Task<IEnumerable<BookModel>> LoadBooksFromFolder()
+        public async Task<IEnumerable<BookModel>> ImportBooksFromFolder()
         {
             var folderPicker = new FolderPicker()
             {
-                FileTypeFilter = {".fb2"}
+                FileTypeFilter = { ".fb2" }
             };
 
             var pickedFolder = await folderPicker.PickSingleFolderAsync();
@@ -106,11 +109,9 @@
                         book.Binary.FirstOrDefault(
                             x => x.Id == book.Description.TitleInfo.Coverpage[0].Href.Replace("#", "")).Value;
 
-
-                    var bookId = Guid.NewGuid();
                     var bookModel = new BookModel
                     {
-                        Id = bookId,
+                        Id = Guid.NewGuid(),
                         Author = author,
                         Title = title,
                         LastOpenedTime = DateTime.Now
@@ -120,6 +121,7 @@
 
                     bookModel.BookPath = bookPath;
                     bookModel.CoverPath = $"{bookPath}.png";
+                    bookModel.FolderPath = bookModel.Id.ToString();
 
                     await _localDbBookProvider.SaveBook(bookModel);
 
@@ -134,6 +136,10 @@
             return loadedBooks;
         }
 
+        #endregion
+
+        #region Saving books
+
         public async Task<string> SaveBookToFolder(string fileName, string directory, byte[] book, byte[] cover)
         {
             var localFolder = ApplicationData.Current.LocalFolder;
@@ -146,6 +152,10 @@
             return $@"Books\{directory}\{fileName}";
         }
 
+        #endregion
+
+        #region Deleting books
+
         public async Task DeleteBook(BookModel book)
         {
             var localFolder = ApplicationData.Current.LocalFolder;
@@ -154,6 +164,21 @@
 
             await localFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
         }
+        public async Task DeleteBooks(IEnumerable<BookModel> books)
+        {
+            foreach (var book in books)
+            {
+                var localFolder = ApplicationData.Current.LocalFolder;
+                localFolder = await localFolder.GetFolderAsync("Books");
+                localFolder = await localFolder.GetFolderAsync(book.FolderPath);
+
+                await localFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            }
+        }
+
+        #endregion
+
+        #region Loading books
 
         public async Task<FictionBook.Library.FictionBook> LoadBook(BookModel bookModel)
         {
@@ -162,6 +187,9 @@
 
             return book;
         }
+
+        #endregion
+
 
         #region Serialize/Deserialize
 
