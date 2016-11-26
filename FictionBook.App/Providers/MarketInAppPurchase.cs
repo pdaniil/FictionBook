@@ -1,9 +1,11 @@
-﻿using System;
-using Windows.ApplicationModel.Store;
-using Books.App.Providers.Contracts;
-
-namespace Books.App.Providers
+﻿namespace Books.App.Providers
 {
+    using System;
+
+    using Windows.ApplicationModel.Store;
+
+    using Contracts;
+
     public class MarketInAppPurchase
         : IInAppPurchase
     {

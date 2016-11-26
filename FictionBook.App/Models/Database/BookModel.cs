@@ -1,11 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.IO;
-using Windows.Storage;
-
-namespace Books.App.Core.Storage.Models
+﻿namespace Books.App.Models.Database
 {
+    using System;
+    using System.IO;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using Windows.Storage;
+
     public class BookModel
     {
         [Key]

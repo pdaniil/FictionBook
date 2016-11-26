@@ -1,9 +1,11 @@
-﻿using Books.App.Core.Storage.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace Books.App.Core.Storage
+﻿namespace Books.App.Core.Database
 {
-    public class LocalDbContext : DbContext
+    using Microsoft.EntityFrameworkCore;
+
+    using Models.Database;
+
+    public class LocalDbContext 
+        : DbContext
     {
         public DbSet<BookModel> Books { get; set; }
 

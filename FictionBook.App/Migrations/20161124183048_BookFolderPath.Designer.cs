@@ -1,9 +1,9 @@
 ﻿using System;
+using Books.App.Core.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Books.App.Core.Storage;
 
 namespace Books.App.Migrations
 {

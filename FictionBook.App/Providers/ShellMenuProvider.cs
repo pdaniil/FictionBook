@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
-using Windows.UI.Xaml.Controls;
-using Books.App.Controls;
-using Books.App.Providers.Contracts;
-using Books.App.ViewModels;
-
-namespace Books.App.Providers
+﻿namespace Books.App.Providers
 {
+    using System.Collections.Generic;
+
+    using Windows.UI.Xaml.Controls;
+    
+    using Contracts;
+    using ViewModels;
+    using Models.Controls;
+
     public class ShellMenuProvider : IMenuProvider
     {
         #region Implementation of IMenuProvider

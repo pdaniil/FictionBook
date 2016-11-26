@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using Books.App.Controls;
-
-namespace Books.App.Providers.Contracts
+﻿namespace Books.App.Providers.Contracts
 {
+    using System.Collections.Generic;
+
+    using Models.Controls;
+
     public interface IMenuProvider
     {
         IEnumerable<MenuItem> GetMainMenuItems();

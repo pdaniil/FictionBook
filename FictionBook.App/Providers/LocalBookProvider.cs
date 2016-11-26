@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
-using Windows.Storage;
-using Windows.Storage.Pickers;
-using Books.App.Core.Storage.Models;
-using Books.App.Providers.Contracts;
-using Microsoft.Toolkit.Uwp;
-
-namespace Books.App.Providers
+﻿namespace Books.App.Providers
 {
-    public class LocalBookProvider : IBookProvider
+    using System;
+    using System.IO;
+    using System.Xml;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Xml.Serialization;
+    using System.Collections.Generic;
+
+    using Windows.Storage;
+    using Windows.Storage.Pickers;
+
+    using Microsoft.Toolkit.Uwp;
+
+    using Contracts;
+    using Models.Database;
+
+    public class LocalBookProvider 
+        : IBookProvider
     {
         #region Private Members
 
@@ -60,7 +64,7 @@ namespace Books.App.Providers
                     LastOpenedTime = DateTime.Now
                 };
 
-                var bookPath = await SaveBookToFolder(pickedFile.Name, bookModel.Id.ToString(), Serialize(book),  cover);
+                var bookPath = await SaveBookToFolder(pickedFile.Name, bookModel.Id.ToString(), Serialize(book), cover);
 
                 bookModel.BookPath = bookPath;
                 bookModel.CoverPath = $"{bookPath}.png";

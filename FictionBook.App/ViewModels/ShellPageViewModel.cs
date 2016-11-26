@@ -1,13 +1,14 @@
-﻿using Windows.Storage;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Books.App.Controls;
-using Books.App.Core;
-using Books.App.Providers.Contracts;
-using Caliburn.Micro;
-
-namespace Books.App.ViewModels
+﻿namespace Books.App.ViewModels
 {
+    using Windows.UI.Xaml;
+    using Windows.UI.Xaml.Controls;
+
+    using Core;
+    using Models.Controls;
+    using Providers.Contracts;
+
+    using Caliburn.Micro;
+
     public sealed class ShellPageViewModel :
         Screen
     {

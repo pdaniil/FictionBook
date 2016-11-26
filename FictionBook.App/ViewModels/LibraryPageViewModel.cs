@@ -1,11 +1,16 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Books.App.Core.Storage.Models;
-using Books.App.Providers.Contracts;
-using Caliburn.Micro;
-
-namespace Books.App.ViewModels
+﻿namespace Books.App.ViewModels
 {
+    using System.Linq;
+    using System.Collections.Generic;
+    
+    using Windows.UI.Xaml;
+    using Windows.UI.Xaml.Controls;
+
+    using Models.Database;
+    using Providers.Contracts;
+
+    using Caliburn.Micro;
+
     public sealed class LibraryPageViewModel
         : Screen
     {
@@ -21,6 +26,10 @@ namespace Books.App.ViewModels
 
         public BindableCollection<BookModel> RecentLibrary => _recentLibrary;
         public BindableCollection<BookModel> AllLibrary => _allLibrary;
+
+        public ListViewSelectionMode RecentBooksSelectionMode { get; set; } = ListViewSelectionMode.None;
+
+        public IList<object> SelectedRecentBooks { get; set; }
 
         public LibraryPageViewModel(IBookProvider bookProvider, IDbBookProvider localDbProvider)
         {
@@ -45,6 +54,21 @@ namespace Books.App.ViewModels
             UpdateAllLibrary();
         }
 
+        #region Overrides of Screen
+        
+        protected override void OnActivate()
+        {
+            UpdateLibraries();
+        }
+        
+        protected override void OnDeactivate(bool close)
+        {
+            _recentLibrary = null;
+            _allLibrary = null;
+            SelectedRecentBooks = null;
+        }
+
+        #endregion
 
         public async void AddFromFile(object sender, RoutedEventArgs eventArgs)
         {
@@ -61,9 +85,20 @@ namespace Books.App.ViewModels
             NotifyOfPropertyChange(nameof(RecentLibrary));
         }
 
-        public async void BookClick(object sender, ItemClickEventArgs eventArgs)
+        public void BookClick(object sender, ItemClickEventArgs eventArgs)
         {
             
+        }
+        public void SelectionMode()
+        {
+            var selectedBooks = SelectedRecentBooks?.Cast<BookModel>();
+            if (selectedBooks?.Count() > 1)
+            {
+                
+            } 
+
+            RecentBooksSelectionMode = RecentBooksSelectionMode == ListViewSelectionMode.None ? ListViewSelectionMode.Multiple : ListViewSelectionMode.None;
+            NotifyOfPropertyChange(nameof(RecentBooksSelectionMode));
         }
     }
 }

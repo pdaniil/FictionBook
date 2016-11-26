@@ -1,20 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Globalization;
-using Windows.System.UserProfile;
-using Windows.UI.Core;
-using Books.App.Core.Storage;
-using Books.App.Providers;
-using Books.App.Providers.Contracts;
-using Books.App.ViewModels;
-using Caliburn.Micro;
-using Microsoft.EntityFrameworkCore;
+﻿using Books.App.Core.Database;
 
 namespace Books.App
 {
+    using System;
+    using System.Text;
+    using System.Collections.Generic;
+
+    using Windows.UI.Core;
+    using Windows.Globalization;
+    using Windows.ApplicationModel;
+    using Windows.System.UserProfile;
+    using Windows.ApplicationModel.Activation;
+
+    using Microsoft.EntityFrameworkCore;
+
+    using Caliburn.Micro;
+
+    using Providers;
+    using ViewModels;
+    using Providers.Contracts;
+
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
@@ -39,7 +44,7 @@ namespace Books.App
         {
             ApplicationLanguages.PrimaryLanguageOverride = GlobalizationPreferences.Languages[0];
 
-            #region Apply Migrations
+            #region Migrations
 
             using (var db = new LocalDbContext())
             {
@@ -52,18 +57,12 @@ namespace Books.App
             _container.RegisterWinRTServices();
 
             _container
-
-            #region PerRequest
                 .PerRequest<ShellPageViewModel>()
                 .PerRequest<LibraryPageViewModel>()
-            #endregion
-
-            #region Singleton
                 .Singleton<LocalDbContext>()
                 .Singleton<IMenuProvider, ShellMenuProvider>()
                 .Singleton<IDbBookProvider, LocalDbBookProvider>()
                 .Singleton<IBookProvider, LocalBookProvider>()
-            #endregion
 #if DEBUG
                 .Singleton<IInAppPurchase, SimulatorInAppPurchase>();
 #else
@@ -73,7 +72,6 @@ namespace Books.App
             _eventAggregator = _container.GetInstance<IEventAggregator>();
 
             var navigation = SystemNavigationManager.GetForCurrentView();
-
             navigation.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }
 
@@ -89,23 +87,6 @@ namespace Books.App
                 //_eventAggregator.PublishOnUIThread(new ResumeMessage());
             }
         }
-
-        #region Overrides of Application
-
-        protected override void OnFileActivated(FileActivatedEventArgs args)
-        {
-            if (args.PreviousExecutionState == ApplicationExecutionState.Running)
-                return;
-
-            DisplayRootViewFor<ShellPageViewModel>();
-
-            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
-            {
-                //_eventAggregator.PublishOnUIThread(new ResumeMessage());
-            }
-        }
-
-        #endregion
 
         protected override void OnSuspending(object sender, SuspendingEventArgs e)
         {
@@ -125,6 +106,23 @@ namespace Books.App
         protected override void BuildUp(object instance)
         {
             _container.BuildUp(instance);
+        }
+
+        #endregion
+
+        #region Overrides of Application
+
+        protected override void OnFileActivated(FileActivatedEventArgs args)
+        {
+            if (args.PreviousExecutionState == ApplicationExecutionState.Running)
+                return;
+
+            DisplayRootViewFor<ShellPageViewModel>();
+
+            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+            {
+                //_eventAggregator.PublishOnUIThread(new ResumeMessage());
+            }
         }
 
         #endregion

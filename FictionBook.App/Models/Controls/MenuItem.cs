@@ -1,8 +1,9 @@
-﻿using System;
-using Windows.UI.Xaml.Controls;
-
-namespace Books.App.Controls
+﻿namespace Books.App.Models.Controls
 {
+    using System;
+
+    using Windows.UI.Xaml.Controls;
+
     public class MenuItem
     {
         public Symbol Icon { get; set; }

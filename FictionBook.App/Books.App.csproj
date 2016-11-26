@@ -96,10 +96,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\Dependency\Behaviors\OpenAttachedFlyoutMenu.cs" />
+    <Compile Include="Core\Dependency\Attached\BindableSelectedItems.cs" />
     <Compile Include="Core\Extensions.cs" />
-    <Compile Include="Controls\MenuItem.cs" />
-    <Compile Include="Core\Storage\LocalDbContext.cs" />
-    <Compile Include="Core\Storage\Models\BookModel.cs" />
+    <Compile Include="Models\Controls\MenuItem.cs" />
+    <Compile Include="Core\Database\LocalDbContext.cs" />
+    <Compile Include="Models\Database\BookModel.cs" />
     <Compile Include="Migrations\20161123072521_InitialMigration.cs" />
     <Compile Include="Migrations\20161123072521_InitialMigration.designer.cs">
       <DependentUpon>20161123072521_InitialMigration.cs</DependentUpon>
@@ -135,10 +137,6 @@
     <None Include="FictionBook.App_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\52520072_p0_master1200.png" />
-    <Content Include="Assets\anime-devushki-iku_acune_miku_hatsune-okaloidy-37782.jpg" />
-    <Content Include="Assets\srJpbCB.jpg" />
-    <Content Include="Assets\__render___mayumi_saegusa_1.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -154,9 +152,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="Views\LibraryPageView.xaml">
       <SubType>Designer</SubType>

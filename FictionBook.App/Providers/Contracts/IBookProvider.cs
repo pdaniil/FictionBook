@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Books.App.Core.Storage.Models;
-
-namespace Books.App.Providers.Contracts
+﻿namespace Books.App.Providers.Contracts
 {
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
+
+    using Models.Database;
+
     public interface IBookProvider
     {
         Task<IEnumerable<BookModel>> LoadBooksFromFolder();

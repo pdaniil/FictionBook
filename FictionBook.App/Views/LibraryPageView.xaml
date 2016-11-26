@@ -3,8 +3,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:micro="using:Caliburn.Micro"
+      xmlns:attached="using:Books.App.Core.Dependency.Attached"
+      xmlns:behaviors="using:Books.App.Core.Dependency.Behaviors"
+      x:Name="Page"
       mc:Ignorable="d">
 
     <Page.Resources>
@@ -13,9 +17,23 @@
                 <Setter Property="FontSize" Value="15" />
             </Style.Setters>
         </Style>
-
         <DataTemplate x:Key="BookPreviewTemplate">
             <Grid>
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:OpenAttachedFlyoutMenu />
+                </interactivity:Interaction.Behaviors>
+
+                <FlyoutBase.AttachedFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem micro:Action.TargetWithoutContext="{Binding Path=DataContext,
+                                                                                    ElementName=Page}"
+                                        micro:Message.Attach="[Event Click] = [SelectClick($source)]"
+                                        Text="123" />
+                        <MenuFlyoutItem Text="456" />
+                        <MenuFlyoutItem Text="789" />
+                    </MenuFlyout>
+                </FlyoutBase.AttachedFlyout>
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -26,8 +44,7 @@
                        Grid.RowSpan="3"
                        Source="{Binding Path=CoverImage}"
                        Stretch="UniformToFill" />
-
-                <Grid Grid.Row="0" Padding="1">
+                <!--<Grid Grid.Row="0" Padding="1">
                     <Grid.Background>
                         <SolidColorBrush Opacity="0.6" Color="Black" />
                     </Grid.Background>
@@ -37,10 +54,7 @@
                                FontWeight="SemiBold"
                                Foreground="White"
                                Text="{Binding Path=Author}" />
-                </Grid>
-
-
-
+                </Grid>-->
                 <Grid Grid.Row="2" Padding="1">
                     <Grid.Background>
                         <SolidColorBrush Opacity="0.6" Color="Black" />
@@ -68,15 +82,72 @@
                Grid.Row="0"
                Foreground="Black">
             <PivotItem Header="RECENT">
-                <controls:AdaptiveGridView x:Name="RecentGrid"
+                <controls:AdaptiveGridView x:Name="RecentGrid" 
                                            HorizontalContentAlignment="Left"
                                            micro:Message.Attach="[Event ItemClick] = [BookClick($source, $eventArgs)]"
-                                           IsItemClickEnabled="True"
-                                           ItemTemplate="{StaticResource BookPreviewTemplate}"
+                                           IsItemClickEnabled="True" 
                                            ItemsSource="{Binding Path=RecentLibrary}"
-                                           SelectionMode="None"
-                                           StretchContentForSingleRow="False" />
+                                           SelectionMode="{Binding Path=RecentBooksSelectionMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding Path=SelectedRecentBook}"
+                                           StretchContentForSingleRow="False">
+                    <interactivity:Interaction.Behaviors>
+                        <attached:BindableSelectedItems SelectedItems="{Binding Path=SelectedRecentBooks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </interactivity:Interaction.Behaviors>
+                    
+                    <controls:AdaptiveGridView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid x:Name="RecentBookGrid">
+                                <interactivity:Interaction.Behaviors>
+                                    <behaviors:OpenAttachedFlyoutMenu />
+                                </interactivity:Interaction.Behaviors>
 
+                                <FlyoutBase.AttachedFlyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem micro:Action.TargetWithoutContext="{Binding Path=DataContext, ElementName=Page}"
+                                                        micro:Message.Attach="[Event Click] = [SelectClick($source, $dataContext)]"
+                                                        Text="123" />
+                                        <MenuFlyoutItem Text="456" />
+                                        <MenuFlyoutItem Text="789" />
+                                    </MenuFlyout>
+                                </FlyoutBase.AttachedFlyout>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Image Grid.Row="0"
+                                       Grid.RowSpan="3"
+                                       Source="{Binding Path=CoverImage}"
+                                       Stretch="UniformToFill" />
+                                <!--<Grid Grid.Row="0" Padding="1">
+                                    <Grid.Background>
+                                        <SolidColorBrush Opacity="0.6" Color="Black" />
+                                    </Grid.Background>
+
+                                    <TextBlock VerticalAlignment="Bottom"
+                                               FontSize="14"
+                                               FontWeight="SemiBold"
+                                               Foreground="White"
+                                               Text="{Binding Path=Author}" />
+                                </Grid>-->
+                                <Grid Grid.Row="2" Padding="1">
+                                    <Grid.Background>
+                                        <SolidColorBrush Opacity="0.6" Color="Black" />
+                                    </Grid.Background>
+
+                                    <TextBlock VerticalAlignment="Bottom"
+                                               FontSize="13"
+                                               FontWeight="SemiLight"
+                                               Foreground="White"
+                                               Text="{Binding Path=Title}"
+                                               TextWrapping="WrapWholeWords" />
+
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </controls:AdaptiveGridView.ItemTemplate>
+                </controls:AdaptiveGridView>
             </PivotItem>
             <PivotItem Header="ALL">
                 <controls:AdaptiveGridView x:Name="AllGrid"
@@ -84,9 +155,9 @@
                                            ItemTemplate="{StaticResource BookPreviewTemplate}"
                                            ItemsSource="{Binding Path=AllLibrary}"
                                            StretchContentForSingleRow="False" />
-
             </PivotItem>
         </Pivot>
+
         <CommandBar Grid.Row="1"
                     ClosedDisplayMode="Minimal"
                     IsSticky="True"
@@ -96,14 +167,9 @@
                 <AppBarButton micro:Message.Attach="[Event Click] = [AddFromFile($source, $eventArgs)]"
                               Icon="Add"
                               IsCompact="True"
-                              Label="Add from file" />
-                <AppBarButton micro:Message.Attach="[Event Click] = [AddFromFolder($source, $eventArgs)]"
-                              Icon="Add"
-                              IsCompact="True"
-                              Label="Add from folder" />
+                              Label="Add" />
             </CommandBar.PrimaryCommands>
         </CommandBar>
-
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates">
                 <VisualState x:Name="WideState">

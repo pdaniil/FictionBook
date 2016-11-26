@@ -1,17 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Books.App.Core.Storage;
-using Books.App.Core.Storage.Models;
-using Books.App.Providers.Contracts;
-using Microsoft.EntityFrameworkCore;
-
-namespace Books.App.Providers
+﻿namespace Books.App.Providers
 {
-    public class LocalDbBookProvider : IDbBookProvider
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Collections.Generic;
+
+    using Contracts;
+    using Core.Database;
+    using Models.Database;
+
+    public class LocalDbBookProvider 
+        : IDbBookProvider
     {
+        #region Private Members
+
         private readonly LocalDbContext _dbContext;
+
+        #endregion
 
         public LocalDbBookProvider(LocalDbContext dbContext)
         {
