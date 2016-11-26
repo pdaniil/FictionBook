@@ -5,7 +5,7 @@
 
     using Models.Database;
 
-    public interface IBookProvider
+    public interface IStorageBookProvider
     {
         Task<IEnumerable<BookModel>> ImportBooksFromFolder();
         Task<BookModel> ImportBookFromFile();

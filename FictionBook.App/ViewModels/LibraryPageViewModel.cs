@@ -2,22 +2,20 @@
 {
     using System.Linq;
     using System.Collections.Generic;
-    
-    using Windows.UI.Xaml;
+
     using Windows.UI.Xaml.Controls;
 
-    using Models.Database;
-    using Providers.Contracts;
-
     using Caliburn.Micro;
+
+    using Models.Database;
+    using Managers.Contracts;
 
     public sealed class LibraryPageViewModel
         : Screen
     {
-        #region Private Members
+        private readonly IBookManager _bookManager;
 
-        private readonly IBookProvider _bookProvider;
-        private readonly IDbBookProvider _bookDbProvider;
+        #region Private Members
 
         private BindableCollection<BookModel> _recentLibrary;
         private BindableCollection<BookModel> _allLibrary;
@@ -56,10 +54,9 @@
 
         #endregion
 
-        public LibraryPageViewModel(IBookProvider bookProvider, IDbBookProvider bookDbProvider)
+        public LibraryPageViewModel(IBookManager bookManager)
         {
-            _bookProvider = bookProvider;
-            _bookDbProvider = bookDbProvider;
+            _bookManager = bookManager;
 
             UpdateLibraries();
         }
@@ -67,11 +64,11 @@
 
         public async void UpdateRecentLibrary()
         {
-            _recentLibrary = new BindableCollection<BookModel>(await _bookDbProvider.GetRecentBooks(7));
+            _recentLibrary = new BindableCollection<BookModel>(await _bookManager.GetBooks(7));
         }
         public async void UpdateAllLibrary()
         {
-            _allLibrary = new BindableCollection<BookModel>(await _bookDbProvider.GetAllBooks());
+            _allLibrary = new BindableCollection<BookModel>(await _bookManager.GetBooks());
         }
 
         public void UpdateLibraries()
@@ -98,14 +95,14 @@
 
         public async void AddFromFile()
         {
-            await _bookProvider.ImportBooksFromFolder();
+            await _bookManager.ImportBook();
 
             UpdateRecentLibrary();
             NotifyOfPropertyChange(nameof(RecentLibrary));
         }
         public async void AddFromFolder()
         {
-            await _bookProvider.ImportBooksFromFolder();
+            await _bookManager.ImportBooks();
 
             UpdateRecentLibrary();
             NotifyOfPropertyChange(nameof(RecentLibrary));
@@ -125,20 +122,13 @@
             
             NotifyOfPropertyChange(nameof(RecentBooksSelectionMode));
         }
-
         public async void DeleteBooks()
         {
             var selectedBooks = SelectedRecentBooks?.Cast<BookModel>();
             if (selectedBooks?.Count() > 1)
-            {
-                await _bookProvider.DeleteBooks(selectedBooks);
-                await _bookDbProvider.DeleteBooks(selectedBooks);
-            }
+                await _bookManager.DeleteBooks(selectedBooks);
             else
-            {
-                await _bookProvider.DeleteBook(SelectedRecentBook);
-                await _bookDbProvider.DeleteBook(SelectedRecentBook);
-            }
+                await _bookManager.DeleteBook(SelectedRecentBook);
 
             UpdateLibraries();
         }

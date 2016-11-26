@@ -99,6 +99,8 @@
     <Compile Include="Core\Dependency\Behaviors\OpenAttachedFlyoutMenu.cs" />
     <Compile Include="Core\Dependency\Attached\BindableSelectedItems.cs" />
     <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Managers\BookManager.cs" />
+    <Compile Include="Managers\Contracts\IBookManager.cs" />
     <Compile Include="Models\Controls\MenuItem.cs" />
     <Compile Include="Core\Database\LocalDbContext.cs" />
     <Compile Include="Models\Database\BookModel.cs" />
@@ -112,8 +114,8 @@
     </Compile>
     <Compile Include="Migrations\LocalDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\LocalBookProvider.cs" />
-    <Compile Include="Providers\Contracts\IBookProvider.cs" />
+    <Compile Include="Providers\LocalStorageBookProvider.cs" />
+    <Compile Include="Providers\Contracts\IStorageBookProvider.cs" />
     <Compile Include="Providers\Contracts\IInAppPurchase.cs" />
     <Compile Include="Providers\Contracts\IDbBookProvider.cs" />
     <Compile Include="Providers\Contracts\IMenuProvider.cs" />

@@ -16,8 +16,8 @@
     using Contracts;
     using Models.Database;
 
-    public class LocalBookProvider 
-        : IBookProvider
+    public class LocalStorageBookProvider 
+        : IStorageBookProvider
     {
         #region Private Members
 
@@ -25,7 +25,7 @@
 
         #endregion
 
-        public LocalBookProvider(IDbBookProvider localDbBookProvider)
+        public LocalStorageBookProvider(IDbBookProvider localDbBookProvider)
         {
             _localDbBookProvider = localDbBookProvider;
         }

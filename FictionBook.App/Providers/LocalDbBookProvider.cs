@@ -34,12 +34,12 @@
             return book;
         }
 
-        public Task<IEnumerable<BookModel>> GetAllBooks()
+        public Task<IEnumerable<BookModel>> GetBooks()
         {
             return Task.FromResult(_dbContext.Books.AsEnumerable());
         }
 
-        public Task<IEnumerable<BookModel>> GetRecentBooks(int days)
+        public Task<IEnumerable<BookModel>> GetBooks(int days)
         {
             return Task.FromResult(_dbContext.Books.Where(x => x.LastOpenedTime >= DateTime.Now.Add(TimeSpan.FromDays(-days))).AsEnumerable());
         }

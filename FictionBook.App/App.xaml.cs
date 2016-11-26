@@ -1,4 +1,6 @@
 ﻿using Books.App.Core.Database;
+using Books.App.Managers;
+using Books.App.Managers.Contracts;
 
 namespace Books.App
 {
@@ -62,7 +64,8 @@ namespace Books.App
                 .Singleton<LocalDbContext>()
                 .Singleton<IMenuProvider, ShellMenuProvider>()
                 .Singleton<IDbBookProvider, LocalDbBookProvider>()
-                .Singleton<IBookProvider, LocalBookProvider>()
+                .Singleton<IStorageBookProvider, LocalStorageBookProvider>()
+                .Singleton<IBookManager, BookManager>()
 #if DEBUG
                 .Singleton<IInAppPurchase, SimulatorInAppPurchase>();
 #else

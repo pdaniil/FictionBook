@@ -9,8 +9,8 @@
     public interface IDbBookProvider
     {
         Task<BookModel> GetBook(Guid bookId);
-        Task<IEnumerable<BookModel>> GetAllBooks();
-        Task<IEnumerable<BookModel>> GetRecentBooks(int days);
+        Task<IEnumerable<BookModel>> GetBooks();
+        Task<IEnumerable<BookModel>> GetBooks(int days);
 
         Task DeleteBook(BookModel book);
         Task DeleteBooks(IEnumerable<BookModel> books);
