@@ -13,46 +13,43 @@
     public sealed class LibraryPageViewModel
         : Screen
     {
-        private readonly IBookManager _bookManager;
-
         #region Private Members
 
-        private BindableCollection<BookModel> _recentLibrary;
-        private BindableCollection<BookModel> _allLibrary;
-        private bool _bookClickEnabled = true;
-        private ListViewSelectionMode _recentBooksSelectionMode = ListViewSelectionMode.None;
+        private readonly IBookManager _bookManager;
+
+        private BindableCollection<BookModel> _recentBooks;
+        private BindableCollection<BookModel> _allBooks;
+
+        private bool _booksClickEnabled = true;
+
+        private ListViewSelectionMode _booksSelectionMode = ListViewSelectionMode.None;
 
         #endregion
 
-        #region Properties
+        public BindableCollection<BookModel> RecentBooks => _recentBooks;
+        public BindableCollection<BookModel> AllBooks => _allBooks;
 
-        public BindableCollection<BookModel> RecentLibrary => _recentLibrary;
-        public BindableCollection<BookModel> AllLibrary => _allLibrary;
+        public BookModel SelectedBook { get; set; }
+        public IList<object> SelectedBooks { get; set; }
 
-        public IList<object> SelectedRecentBooks { get; set; }
-
-        public ListViewSelectionMode RecentBooksSelectionMode
+        public bool BooksClickEnabled
         {
-            get { return _recentBooksSelectionMode; }
+            get { return _booksClickEnabled; }
             set
             {
-                _recentBooksSelectionMode = value;
+                _booksClickEnabled = value;
                 NotifyOfPropertyChange();
             }
         }
-
-        public BookModel SelectedRecentBook { get; set; }
-        public bool BookClickEnabled
+        public ListViewSelectionMode BooksSelectionMode
         {
-            get { return _bookClickEnabled; }
+            get { return _booksSelectionMode; }
             set
             {
-                _bookClickEnabled = value; 
+                _booksSelectionMode = value;
                 NotifyOfPropertyChange();
             }
         }
-
-        #endregion
 
         public LibraryPageViewModel(IBookManager bookManager)
         {
@@ -61,76 +58,60 @@
             UpdateLibraries();
         }
 
-
-        public async void UpdateRecentLibrary()
+        public async void UpdateLibraries()
         {
-            _recentLibrary = new BindableCollection<BookModel>(await _bookManager.GetBooks(7));
-        }
-        public async void UpdateAllLibrary()
-        {
-            _allLibrary = new BindableCollection<BookModel>(await _bookManager.GetBooks());
+            _recentBooks = new BindableCollection<BookModel>(await _bookManager.GetBooks(7));
+            _allBooks = new BindableCollection<BookModel>(await _bookManager.GetBooks());
         }
 
-        public void UpdateLibraries()
+        public async void AddBook()
         {
-            UpdateRecentLibrary();
-            UpdateAllLibrary();
+            var importedBook = await _bookManager.ImportBook();
+
+            _recentBooks.Insert(0, importedBook);
+            _allBooks.Add(importedBook);
+
+            NotifyOfPropertyChange(nameof(RecentBooks));
+            NotifyOfPropertyChange(nameof(AllBooks));
         }
-
-        #region Overrides of Screen
-        
-        protected override void OnActivate()
+        public async void DeleteBooks()
         {
-            UpdateLibraries();
+            var selectedBooks = SelectedBooks?.Cast<BookModel>();
+            if (selectedBooks?.Count() > 1)
+            {
+                await _bookManager.DeleteBooks(selectedBooks);
+
+
+                _allBooks.RemoveRange(selectedBooks);
+                _recentBooks.RemoveRange(selectedBooks);
+            }
+            else
+            {
+                await _bookManager.DeleteBook(SelectedBook);
+
+                _allBooks.Remove(SelectedBook);
+                _recentBooks.Remove(SelectedBook);
+            }
+
+            BooksSelectionMode = ListViewSelectionMode.None;
+            BooksClickEnabled = true;
+
+            NotifyOfPropertyChange(nameof(RecentBooks));
+            NotifyOfPropertyChange(nameof(AllBooks));
         }
-        
-        protected override void OnDeactivate(bool close)
+        public void SelectionMode()
         {
-            _recentLibrary = null;
-            _allLibrary = null;
-            SelectedRecentBooks = null;
-        }
+            BooksClickEnabled = false;
 
-        #endregion
+            BooksClickEnabled = BooksSelectionMode != ListViewSelectionMode.Multiple;
+            BooksSelectionMode = BooksSelectionMode == ListViewSelectionMode.None ? ListViewSelectionMode.Multiple : ListViewSelectionMode.None;
 
-        public async void AddFromFile()
-        {
-            await _bookManager.ImportBook();
-
-            UpdateRecentLibrary();
-            NotifyOfPropertyChange(nameof(RecentLibrary));
-        }
-        public async void AddFromFolder()
-        {
-            await _bookManager.ImportBooks();
-
-            UpdateRecentLibrary();
-            NotifyOfPropertyChange(nameof(RecentLibrary));
+            NotifyOfPropertyChange(nameof(BooksSelectionMode));
         }
 
         public void OpenBook(ItemClickEventArgs eventArgs)
         {
             
-        }
-
-        public void SelectionMode()
-        {
-            BookClickEnabled = false;
-
-            BookClickEnabled = RecentBooksSelectionMode != ListViewSelectionMode.Multiple;
-            RecentBooksSelectionMode = RecentBooksSelectionMode == ListViewSelectionMode.None ? ListViewSelectionMode.Multiple : ListViewSelectionMode.None;
-            
-            NotifyOfPropertyChange(nameof(RecentBooksSelectionMode));
-        }
-        public async void DeleteBooks()
-        {
-            var selectedBooks = SelectedRecentBooks?.Cast<BookModel>();
-            if (selectedBooks?.Count() > 1)
-                await _bookManager.DeleteBooks(selectedBooks);
-            else
-                await _bookManager.DeleteBook(SelectedRecentBook);
-
-            UpdateLibraries();
         }
     }
 }

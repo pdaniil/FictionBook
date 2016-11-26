@@ -14,7 +14,7 @@
 
         public IEnumerable<MenuItem> GetMainMenuItems()
         {
-            yield return new MenuItem() { Icon = Symbol.Library, Name = "Home", Page = typeof(LibraryPageViewModel)};
+            yield return new MenuItem() { Icon = Symbol.Library, Name = "Library", Page = typeof(LibraryPageViewModel)};
             yield return new MenuItem() { Icon = Symbol.Send, Name = "Favorite", Page = typeof(ShellPageViewModel) };
         }
 

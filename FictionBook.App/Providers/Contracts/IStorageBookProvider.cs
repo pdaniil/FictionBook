@@ -7,8 +7,8 @@
 
     public interface IStorageBookProvider
     {
-        Task<IEnumerable<BookModel>> ImportBooksFromFolder();
-        Task<BookModel> ImportBookFromFile();
+        Task<IEnumerable<BookModel>> ImportBooks();
+        Task<BookModel> ImportBook();
 
         Task<string> SaveBookToFolder(string fileName, string directory, byte[] book, byte[] cover);
 

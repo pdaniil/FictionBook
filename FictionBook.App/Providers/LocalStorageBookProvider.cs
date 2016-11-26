@@ -33,7 +33,7 @@
 
         #region Importing books
 
-        public async Task<BookModel> ImportBookFromFile()
+        public async Task<BookModel> ImportBook()
         {
             var filePicker = new FileOpenPicker()
             {
@@ -41,9 +41,7 @@
             };
 
             var pickedFile = await filePicker.PickSingleFileAsync();
-
-            BookModel bookModel = null;
-
+            
             try
             {
                 var book = Deserialize<FictionBook.Library.FictionBook>(await pickedFile.OpenStreamForReadAsync());
@@ -58,7 +56,7 @@
                         x => x.Id == book.Description.TitleInfo.Coverpage[0].Href.Replace("#", "")).Value;
 
 
-                bookModel = new BookModel
+                var bookModel = new BookModel
                 {
                     Id = Guid.NewGuid(),
                     Author = author,
@@ -73,15 +71,21 @@
                 bookModel.FolderPath = bookModel.Id.ToString();
 
                 await _localDbBookProvider.SaveBook(bookModel);
+                return bookModel;
             }
             catch (Exception)
             {
                 //
             }
+            finally
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
 
-            return bookModel;
+            return null;
         }
-        public async Task<IEnumerable<BookModel>> ImportBooksFromFolder()
+        public async Task<IEnumerable<BookModel>> ImportBooks()
         {
             var folderPicker = new FolderPicker()
             {
@@ -160,7 +164,7 @@
         {
             var localFolder = ApplicationData.Current.LocalFolder;
             localFolder = await localFolder.GetFolderAsync("Books");
-            localFolder = await localFolder.GetFolderAsync(book.FolderPath);
+            localFolder = await localFolder.GetFolderAsync(book.FolderPath ?? book.Id.ToString());
 
             await localFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
         }
@@ -170,7 +174,7 @@
             {
                 var localFolder = ApplicationData.Current.LocalFolder;
                 localFolder = await localFolder.GetFolderAsync("Books");
-                localFolder = await localFolder.GetFolderAsync(book.FolderPath);
+                localFolder = await localFolder.GetFolderAsync(book.FolderPath ?? book.Id.ToString());
 
                 await localFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
             }

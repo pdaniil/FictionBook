@@ -59,8 +59,8 @@ namespace Books.App
             _container.RegisterWinRTServices();
 
             _container
-                .PerRequest<ShellPageViewModel>()
-                .PerRequest<LibraryPageViewModel>()
+                .Singleton<ShellPageViewModel>()
+                .Singleton<LibraryPageViewModel>()
                 .Singleton<LocalDbContext>()
                 .Singleton<IMenuProvider, ShellMenuProvider>()
                 .Singleton<IDbBookProvider, LocalDbBookProvider>()

@@ -27,11 +27,11 @@ namespace Books.App.Managers
 
         public async Task<BookModel> ImportBook()
         {
-            return await _storageBookProvider.ImportBookFromFile();
+            return await _storageBookProvider.ImportBook();
         }
         public async Task<IEnumerable<BookModel>> ImportBooks()
         {
-            return await _storageBookProvider.ImportBooksFromFolder();
+            return await _storageBookProvider.ImportBooks();
         }
 
         public Task<FictionBook.Library.FictionBook> LoadBook()

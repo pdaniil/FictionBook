@@ -41,7 +41,11 @@
 
         public Task<IEnumerable<BookModel>> GetBooks(int days)
         {
-            return Task.FromResult(_dbContext.Books.Where(x => x.LastOpenedTime >= DateTime.Now.Add(TimeSpan.FromDays(-days))).AsEnumerable());
+            return
+                Task.FromResult(
+                    _dbContext.Books.Where(x => x.LastOpenedTime >= DateTime.Now.Add(TimeSpan.FromDays(-days)))
+                        .OrderByDescending(x => x.LastOpenedTime)
+                        .AsEnumerable());
         }
 
         #endregion

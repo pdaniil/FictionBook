@@ -1,6 +1,7 @@
-﻿namespace Books.App.ViewModels
+﻿using System;
+
+namespace Books.App.ViewModels
 {
-    using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
 
     using Core;
@@ -21,7 +22,8 @@
 
         private INavigationService _navigation;
         private bool _paneOpen;
-        private Visibility _bookCommandBarVisibility = Visibility.Collapsed;
+
+        private Type _currentViewModel;
 
         #endregion
 
@@ -51,23 +53,18 @@
                 NotifyOfPropertyChange();
             }
         }
-        private void PaneBehavior()
-        {
-            PaneOpen = PaneOpen && !PaneOpen;
-        }
-
+ 
         private void MainMenuItemClick(object sender, ItemClickEventArgs eventArgs)
         {
-            CollapseAllCommandBars();
-
             var menuItem = eventArgs.ClickedItem as MenuItem;
 
-            if (menuItem.Page == typeof(LibraryPageViewModel))
+            if (menuItem.Page == typeof(LibraryPageViewModel) && 
+                _currentViewModel != typeof(LibraryPageViewModel))
             {
                 _navigation.For<LibraryPageViewModel>()
                     .Navigate();
 
-                BookCommandBarVisibility = Visibility.Visible;
+                _currentViewModel = typeof(LibraryPageViewModel);
             }
 
             PaneBehavior();
@@ -77,21 +74,13 @@
             PaneBehavior();
         }
 
-        #endregion
-
-        #region CommandBars
-
-        public Visibility BookCommandBarVisibility
+        private void PaneBehavior()
         {
-            get { return _bookCommandBarVisibility; }
-            set
-            {
-                _bookCommandBarVisibility = value;
-                NotifyOfPropertyChange();
-            }
+            PaneOpen = PaneOpen && !PaneOpen;
         }
 
         #endregion
+
 
         #region Configuring Screen
 
@@ -101,17 +90,10 @@
             _navigation.BackRequested += (sender, args) =>
             {
                 if (_navigation.CanGoBack)
-                {
                     _navigation.GoBack();
-                }
                 else
                     TryClose();
             };
-        }
-
-        private void CollapseAllCommandBars()
-        {
-            BookCommandBarVisibility = Visibility.Collapsed;
         }
 
         #endregion
