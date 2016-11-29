@@ -99,6 +99,7 @@
     <Compile Include="Core\Dependency\Behaviors\OpenAttachedFlyoutMenu.cs" />
     <Compile Include="Core\Dependency\Attached\BindableSelectedItems.cs" />
     <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Core\Messages\BooksImported.cs" />
     <Compile Include="Managers\BookManager.cs" />
     <Compile Include="Managers\Contracts\IBookManager.cs" />
     <Compile Include="Models\Controls\MenuItem.cs" />
@@ -123,8 +124,12 @@
     <Compile Include="Providers\MarketInAppPurchase.cs" />
     <Compile Include="Providers\ShellMenuProvider.cs" />
     <Compile Include="Providers\SimulatorInAppPurchase.cs" />
+    <Compile Include="ViewModels\BookImportingPageViewModel.cs" />
     <Compile Include="ViewModels\LibraryPageViewModel.cs" />
     <Compile Include="ViewModels\ShellPageViewModel.cs" />
+    <Compile Include="Views\BookImportingPageView.xaml.cs">
+      <DependentUpon>BookImportingPageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LibraryPageView.xaml.cs">
       <DependentUpon>LibraryPageView.xaml</DependentUpon>
     </Compile>
@@ -165,6 +170,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\BookImportingPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LibraryPageView.xaml">
       <SubType>Designer</SubType>

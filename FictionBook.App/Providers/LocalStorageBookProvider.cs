@@ -35,55 +35,43 @@
 
         public async Task<BookModel> ImportBook()
         {
-            var filePicker = new FileOpenPicker()
+            var filePicker = new FileOpenPicker
             {
                 FileTypeFilter = { ".fb2" }
             };
 
             var pickedFile = await filePicker.PickSingleFileAsync();
-            
-            try
+
+            if (pickedFile == null)
+                return null;
+
+            var book = Deserialize<FictionBook.Library.FictionBook>(await pickedFile.OpenStreamForReadAsync());
+
+            var title = book.Description.TitleInfo.BookTitle.Text;
+            var author =
+                book.Description.TitleInfo.Author[0].Items.Select(x => x.Text)
+                    .Aggregate((current, next) => current + " " + next);
+
+            var cover =
+                book.Binary.FirstOrDefault(
+                    x => x.Id == book.Description.TitleInfo.Coverpage[0].Href.Replace("#", "")).Value;
+
+            var bookModel = new BookModel
             {
-                var book = Deserialize<FictionBook.Library.FictionBook>(await pickedFile.OpenStreamForReadAsync());
+                Id = Guid.NewGuid(),
+                Author = author,
+                Title = title,
+                LastOpenedTime = DateTime.Now
+            };
 
-                var title = book.Description.TitleInfo.BookTitle.Text;
-                var author =
-                    book.Description.TitleInfo.Author[0].Items.Select(x => x.Text)
-                        .Aggregate((current, next) => current + " " + next);
+            var bookPath = await SaveBookToFolder(pickedFile.Name, bookModel.Id.ToString(), Serialize(book), cover);
 
-                var cover =
-                    book.Binary.FirstOrDefault(
-                        x => x.Id == book.Description.TitleInfo.Coverpage[0].Href.Replace("#", "")).Value;
+            bookModel.BookPath = bookPath;
+            bookModel.CoverPath = $"{bookPath}.png";
+            bookModel.FolderPath = bookModel.Id.ToString();
 
-
-                var bookModel = new BookModel
-                {
-                    Id = Guid.NewGuid(),
-                    Author = author,
-                    Title = title,
-                    LastOpenedTime = DateTime.Now
-                };
-
-                var bookPath = await SaveBookToFolder(pickedFile.Name, bookModel.Id.ToString(), Serialize(book), cover);
-
-                bookModel.BookPath = bookPath;
-                bookModel.CoverPath = $"{bookPath}.png";
-                bookModel.FolderPath = bookModel.Id.ToString();
-
-                await _localDbBookProvider.SaveBook(bookModel);
-                return bookModel;
-            }
-            catch (Exception)
-            {
-                //
-            }
-            finally
-            {
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-            }
-
-            return null;
+            await _localDbBookProvider.SaveBook(bookModel);
+            return bookModel;
         }
         public async Task<IEnumerable<BookModel>> ImportBooks()
         {

@@ -81,7 +81,6 @@ namespace Books.App.ViewModels
 
         #endregion
 
-
         #region Configuring Screen
 
         private void SetupNavigation(Frame frame)

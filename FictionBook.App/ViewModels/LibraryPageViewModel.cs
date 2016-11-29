@@ -1,4 +1,6 @@
-﻿namespace Books.App.ViewModels
+﻿using Books.App.Core.Messages;
+
+namespace Books.App.ViewModels
 {
     using System.Linq;
     using System.Collections.Generic;
@@ -11,11 +13,12 @@
     using Managers.Contracts;
 
     public sealed class LibraryPageViewModel
-        : Screen
+        : Screen, IHandle<BooksImported>
     {
         #region Private Members
 
         private readonly IBookManager _bookManager;
+        private readonly INavigationService _navigation;
 
         private BindableCollection<BookModel> _recentBooks;
         private BindableCollection<BookModel> _allBooks;
@@ -51,9 +54,10 @@
             }
         }
 
-        public LibraryPageViewModel(IBookManager bookManager)
+        public LibraryPageViewModel(IBookManager bookManager, INavigationService navigation)
         {
             _bookManager = bookManager;
+            _navigation = navigation;
 
             UpdateLibraries();
         }
@@ -64,15 +68,11 @@
             _allBooks = new BindableCollection<BookModel>(await _bookManager.GetBooks());
         }
 
-        public async void AddBook()
+        public void AddBook()
         {
-            var importedBook = await _bookManager.ImportBook();
-
-            _recentBooks.Insert(0, importedBook);
-            _allBooks.Add(importedBook);
-
-            NotifyOfPropertyChange(nameof(RecentBooks));
-            NotifyOfPropertyChange(nameof(AllBooks));
+            _navigation
+                .For<BookImportingPageViewModel>()
+                .Navigate();
         }
         public async void DeleteBooks()
         {
@@ -80,7 +80,6 @@
             if (selectedBooks?.Count() > 1)
             {
                 await _bookManager.DeleteBooks(selectedBooks);
-
 
                 _allBooks.RemoveRange(selectedBooks);
                 _recentBooks.RemoveRange(selectedBooks);
@@ -112,6 +111,15 @@
         public void OpenBook(ItemClickEventArgs eventArgs)
         {
             
+        }
+
+        public void Handle(BooksImported message)
+        {
+            _recentBooks.AddRange(message.Value);
+            _allBooks.AddRange(message.Value);
+
+            NotifyOfPropertyChange(nameof(RecentBooks));
+            NotifyOfPropertyChange(nameof(AllBooks));
         }
     }
 }

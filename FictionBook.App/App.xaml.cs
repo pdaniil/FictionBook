@@ -61,6 +61,7 @@ namespace Books.App
             _container
                 .Singleton<ShellPageViewModel>()
                 .Singleton<LibraryPageViewModel>()
+                .PerRequest<BookImportingPageViewModel>()
                 .Singleton<LocalDbContext>()
                 .Singleton<IMenuProvider, ShellMenuProvider>()
                 .Singleton<IDbBookProvider, LocalDbBookProvider>()
